@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ditado · 7.1 Sinais de pontuação</title>
+<style>
+:root{--fundo:#fbfaf7;--texto:#1d2330;--suave:#5f6878;--borda:#e2ddd3;--acento:#d4650f;--cartao:#fff}
+@media (prefers-color-scheme:dark){:root{--fundo:#16171a;--texto:#ececec;--suave:#a9b0bb;--borda:#33363c;--acento:#f2a15a;--cartao:#1f2125}}
+*{box-sizing:border-box}body{margin:0;background:var(--fundo);color:var(--texto);font:18px/1.5 system-ui,"Segoe UI",sans-serif}
+main{max-width:560px;margin:0 auto;padding:20px 16px 60px}h1{font-size:1.25rem;margin:0 0 4px}
+p{color:var(--suave);margin:0 0 16px}
+#tudo{width:100%;font:inherit;font-weight:800;padding:14px;border:0;border-radius:14px;background:var(--acento);color:#fff;cursor:pointer}
+#estado{min-height:1.6em;margin:10px 0;font-weight:700;color:var(--acento)}
+ol{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+li{display:flex;align-items:center;justify-content:space-between;background:var(--cartao);border:1px solid var(--borda);border-radius:12px;padding:10px 14px}
+li.agora{outline:3px solid var(--acento)}.n{font-weight:800}
+.b{font:inherit;font-weight:700;padding:6px 14px;border:1px solid var(--acento);border-radius:999px;background:none;color:var(--acento);cursor:pointer}
+button:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+</style></head><body><main>
+<h1>Ditado · 7.1 Sinais de pontuação</h1>
+<p>Capítulo 7 · Toque em <b>Começar o ditado</b>. Cada item é falado duas vezes, com tempo para
+escrever. Para ouvir um item de novo, toque em ▶ Ouvir.</p>
+<button id="tudo">Começar o ditado</button>
+<div id="estado" role="status"></div>
+<ol><li data-src="audio/af3ad3e6b113.mp3" data-pausa="8"><span class="n">5615a)</span><button class="b" aria-label="Ouvir o item 5615a">▶ Ouvir</button></li><li data-src="audio/aa373e0ffe43.mp3" data-pausa="8"><span class="n">5615b)</span><button class="b" aria-label="Ouvir o item 5615b">▶ Ouvir</button></li><li data-src="audio/de39f6bf4d80.mp3" data-pausa="8"><span class="n">5615c)</span><button class="b" aria-label="Ouvir o item 5615c">▶ Ouvir</button></li><li data-src="audio/2d3ebd22a0b8.mp3" data-pausa="8"><span class="n">5615d)</span><button class="b" aria-label="Ouvir o item 5615d">▶ Ouvir</button></li><li data-src="audio/11a87eeeb6b4.mp3" data-pausa="8"><span class="n">5615e)</span><button class="b" aria-label="Ouvir o item 5615e">▶ Ouvir</button></li><li data-src="audio/7e7249e2527c.mp3" data-pausa="8"><span class="n">5615f)</span><button class="b" aria-label="Ouvir o item 5615f">▶ Ouvir</button></li><li data-src="audio/498f311a9c76.mp3" data-pausa="8"><span class="n">5615g)</span><button class="b" aria-label="Ouvir o item 5615g">▶ Ouvir</button></li><li data-src="audio/c78dd1cf85fb.mp3" data-pausa="8"><span class="n">5615h)</span><button class="b" aria-label="Ouvir o item 5615h">▶ Ouvir</button></li><li data-src="audio/e7f45171705c.mp3" data-pausa="16"><span class="n">5616a)</span><button class="b" aria-label="Ouvir o item 5616a">▶ Ouvir</button></li><li data-src="audio/38cb49dd498d.mp3" data-pausa="8"><span class="n">5616b)</span><button class="b" aria-label="Ouvir o item 5616b">▶ Ouvir</button></li></ol>
+</main>
+<script>
+const itens=[...document.querySelectorAll('li')];const estado=document.getElementById('estado');
+const audio=new Audio();let parar=false,rodando=false;
+function tocar(src){return new Promise(r=>{audio.src=src;audio.onended=r;audio.onerror=r;audio.play().catch(r);});}
+const espera=s=>new Promise(r=>setTimeout(r,s*1000));
+itens.forEach(li=>li.querySelector('.b').onclick=()=>{parar=true;tocar(li.dataset.src);});
+document.getElementById('tudo').onclick=async()=>{if(rodando)return;rodando=true;parar=false;
+ for(const li of itens){if(parar)break;itens.forEach(x=>x.classList.remove('agora'));li.classList.add('agora');
+  estado.textContent='Item '+li.querySelector('.n').textContent;
+  await tocar(li.dataset.src);await espera(2);if(parar)break;await tocar(li.dataset.src);
+  estado.textContent='Escreva…';await espera(+li.dataset.pausa);}
+ estado.textContent=parar?'':'Fim do ditado! Confira as respostas no fim do livro.';rodando=false;};
+</script></body></html>
