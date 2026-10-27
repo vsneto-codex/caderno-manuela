@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>7.8 Reforço: Desafios · Passo a passo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{--fundo:#f6f7f9;--texto:#1d2330;--suave:#5f6878;--borda:#dfe3ea;--cartao:#fff;
+ --faixa:#eef1f5;--acento:#2b62b8;--acento-claro:#e6eefb;--certo:#1f7a4a;--certo-claro:#e5f4ec;
+ --dica:#8a5a00;--dica-claro:#fff6e0;--erro:#b3261e;
+ --letra:"Nunito","Segoe UI",system-ui,sans-serif;--numero:"Nunito","Segoe UI",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fundo:#14171c;--texto:#e8ebf0;
+ --suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;--faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;
+ --certo:#7fd3a4;--certo-claro:#173326;--dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}}
+:root[data-theme="dark"]{--fundo:#14171c;--texto:#e8ebf0;--suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;
+ --faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;--certo:#7fd3a4;--certo-claro:#173326;
+ --dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--texto);font:17px/1.55 var(--letra);font-variant-numeric:tabular-nums}
+header{position:sticky;top:0;background:var(--fundo);border-bottom:1px solid var(--borda);padding:12px 16px;z-index:2}
+header h1{font-size:1.15rem;margin:0 0 2px}
+header p{margin:0 0 8px;color:var(--suave);font-size:.9rem}
+form{display:flex;gap:8px;max-width:440px}
+input{flex:1;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--borda);border-radius:10px;background:var(--cartao);color:var(--texto)}
+input:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+button{font:inherit;font-weight:700;padding:8px 16px;border:0;border-radius:10px;background:var(--acento);color:var(--cartao);cursor:pointer}
+#aviso{color:var(--erro);font-size:.9rem;margin-top:4px;min-height:1.2em}
+main{max-width:780px;margin:0 auto;padding:12px 16px 80px}
+h2.nivel{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--suave);margin:32px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--borda)}
+article{background:var(--cartao);border:1px solid var(--borda);border-radius:14px;padding:16px 18px;margin:14px 0;scroll-margin-top:140px}
+article.achado{outline:3px solid var(--acento)}
+.num{display:inline-block;font-weight:800;color:var(--acento);margin-right:8px}
+.cmd{margin:0 0 8px;font-weight:600}
+.exemplo{margin:0 0 10px;padding:8px 12px;background:var(--faixa);border:1px solid var(--borda);border-radius:10px}
+.item{border-top:1px dashed var(--borda);padding:12px 0 6px;scroll-margin-top:140px}
+.item:first-of-type{border-top:0;padding-top:4px}
+.item.achado{background:var(--acento-claro);border-radius:10px;padding-inline:10px}
+.letra{font-weight:800;margin-right:6px}
+details{margin-top:8px}
+summary{cursor:pointer;color:var(--acento);font-weight:700;font-size:.95rem;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--acento);border-radius:999px}
+summary::-webkit-details-marker{display:none}
+details[open] summary{background:var(--acento);color:var(--cartao)}
+.solucao{margin-top:12px;display:grid;gap:12px}
+.passo{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.passo .n{width:28px;height:28px;border-radius:50%;background:var(--acento-claro);color:var(--acento);font-weight:800;display:grid;place-items:center;font-size:.9rem}
+.passo .corpo{min-width:0;display:grid;gap:8px;padding-top:2px}
+.passo p{margin:0}
+.dica{padding:8px 12px;border-radius:10px;background:var(--dica-claro);color:var(--texto);border-left:4px solid var(--dica);font-size:.95rem}
+.dica b{color:var(--dica)}
+.final{padding:10px 14px;border-radius:12px;background:var(--certo-claro);border:1px solid var(--certo);font-size:1.05rem}
+.final b{color:var(--certo)}
+.rolagem{overflow-x:auto}
+table.quadro{border-collapse:collapse;font-size:1rem;text-align:center}
+table.quadro th{font-size:.72rem;font-weight:700;color:var(--suave);padding:3px 8px;border:1px solid var(--borda);background:var(--faixa)}
+table.quadro th.cls{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+table.quadro td{border:1px solid var(--borda);padding:5px 10px;min-width:34px;font-weight:700;font-size:1.1rem}
+table.quadro td.rot{font-weight:600;font-size:.85rem;text-align:left;color:var(--suave);min-width:0}
+table.quadro td.v{font-weight:400;font-size:.78rem;color:var(--suave)}
+table.quadro .sep{border-left:3px solid var(--suave)}
+table.quadro td.hl{background:var(--texto);color:var(--cartao);border-radius:4px}
+table.quadro th.hl{background:var(--acento-claro);color:var(--acento)}
+.legenda{font-size:.78rem;color:var(--suave);margin-top:4px}
+table.conta{border-collapse:collapse;font-size:1.2rem;font-weight:700;margin-left:4px}
+table.conta td{padding:1px 2px;text-align:center;min-width:.7em}
+table.conta td.pt{min-width:0;padding:1px 0}
+table.conta td.op{color:var(--acento);text-align:center;width:26px;padding-right:6px}
+table.conta tr.res td{border-top:2px solid var(--texto);padding-top:3px}
+table.conta tr.res td.op{border-top:0}
+table.conta tr.reserva td{font-size:.75rem;color:var(--erro);font-weight:800;padding-bottom:0}
+.lista{display:flex;flex-wrap:wrap;gap:6px}
+.lista span{padding:3px 10px;border-radius:999px;background:var(--faixa);border:1px solid var(--borda);font-size:.95rem}
+.lista-titulo{font-size:.85rem;color:var(--suave)}
+.regra{background:var(--cartao);border:2px solid var(--texto);border-radius:14px;padding:12px 14px;margin:0 0 18px}
+.regra h2{margin:0 0 6px;font-size:1.05rem;letter-spacing:.03em}
+.regra h3{margin:12px 0 4px;font-size:.9rem;letter-spacing:.04em;color:var(--suave)}
+.regra p{margin:0}.regra table{border-collapse:collapse;width:100%;font-size:.92rem}
+.regra td,.regra th{border:1px solid var(--borda);padding:5px 7px;text-align:left;vertical-align:top}
+.regra th{background:var(--faixa);font-size:.78rem}
+.regra .cuidado{margin-top:10px;padding:8px 12px;border-radius:10px;border-left:4px solid var(--erro)}
+.erros{padding:8px 12px;border-radius:10px;border:1px solid var(--borda);border-left:4px solid var(--erro);font-size:.95rem}
+.erros b{color:var(--erro)}.erros ul{margin:4px 0 0;padding-left:1.1em}.erros li{margin:3px 0}
+.dest{display:inline-block;background:var(--texto);color:var(--cartao);font-weight:800;border-radius:4px;padding:0 4px;line-height:1.3}
+.caixa{display:inline-block;width:1.1em;height:1.1em;border:1.5px solid currentColor;border-radius:3px;vertical-align:-.2em}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .15em;font-size:.95em}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .2em}
+.fr>span:last-child{padding:0 .2em}
+.fr .caixa{width:.9em;height:.9em}
+svg{max-width:100%;height:auto;display:block;color:var(--texto)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.logo{display:block;height:30px;width:auto;margin:0 0 8px;background:#fff;padding:4px 8px;border-radius:8px}</style></head>
+<body>
+<header>
+<img class="logo" src="https://vsneto-codex.github.io/caderno-manuela/logo-superbase.png" alt="SUPERBASE">
+<h1>Capítulo 7 · 7.8 Reforço: Desafios</h1>
+<p>Resolução dos exercícios 1 a 2. Tente resolver antes de olhar!</p>
+<form id="busca"><input id="numero" inputmode="text" autocomplete="off" placeholder="Número do exercício (ex.: 1 ou 1a)" aria-label="Número do exercício"><button>Ir</button></form>
+<div id="aviso" role="status"></div>
+</header>
+<main>
+<section class="regra"><h2>REGRA: REFORÇO: DESAFIOS</h2><h3>O QUE É</h3><p>Os desafios de geometria pedem atenção para contar figuras escondidas e imaginar sólidos girando.</p><h3>COMO FAZER</h3><p>Conte com organização: primeiro as figuras pequenas, depois as formadas por 2 pedaços, depois por 3… Anote cada grupo para não contar duas vezes.</p><h3>ESTRATÉGIAS</h3><div class="rolagem"><table><tr><th></th><th>O QUE QUER DIZER</th><th>EXEMPLO</th></tr><tr><td>Contar por tamanho</td><td>pequenas, depois maiores</td><td>4 quadradinhos + 1 grande = 5</td></tr><tr><td>Usar a tabela</td><td>faces, arestas e vértices</td><td>cubo: 6, 12, 8</td></tr><tr><td>Desenhar</td><td>um esboço ajuda a ver</td><td>planificação</td></tr></table></div><div class="cuidado"><b>Cuidado!</b> Num desenho, também contam as figuras grandes formadas por figuras pequenas juntas.</div></section><h2 class="nivel">Treino</h2><article id="ex-1"><p class="cmd"><span class="num">1.</span>Quantos quadrados de todos os tamanhos há no quadriculado (os pequenos e os formados por vários quadradinhos)?</p><p class="exemplo"><b>Exemplo:</b>  → 3</p><div class="item" id="ex-1a"><div><span class="letra">a)</span></div><div class="rolagem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 156 24" width="156" height="24" role="img" aria-label="malha quadriculada"><line x1="1" y1="1" x2="1" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="23" y1="1" x2="23" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="45" y1="1" x2="45" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="67" y1="1" x2="67" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="89" y1="1" x2="89" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="111" y1="1" x2="111" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="133" y1="1" x2="133" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="155" y1="1" x2="155" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="1" y1="1" x2="155" y2="1" stroke="currentColor" stroke-opacity=".5"/><line x1="1" y1="23" x2="155" y2="23" stroke="currentColor" stroke-opacity=".5"/></svg></div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Conte por tamanho, em tabela:</b> quadrados 1 × 1, depois 2 × 2, depois 3 × 3…; conte cada tamanho e some.</p><div class="lista-titulo">Por tamanho</div><div class="lista"><span>1 por 1: 7</span></div></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Total: <b>7</b>.</p></div></div><div class="final"><b>Resposta:</b> 7</div></div></details></div><div class="item" id="ex-1b"><div><span class="letra">b)</span></div><div class="rolagem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 68" width="112" height="68" role="img" aria-label="malha quadriculada"><line x1="1" y1="1" x2="1" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="23" y1="1" x2="23" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="45" y1="1" x2="45" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="67" y1="1" x2="67" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="89" y1="1" x2="89" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="111" y1="1" x2="111" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="1" y1="1" x2="111" y2="1" stroke="currentColor" stroke-opacity=".5"/><line x1="1" y1="23" x2="111" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="1" y1="45" x2="111" y2="45" stroke="currentColor" stroke-opacity=".5"/><line x1="1" y1="67" x2="111" y2="67" stroke="currentColor" stroke-opacity=".5"/></svg></div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Conte por tamanho, em tabela:</b> quadrados 1 × 1, depois 2 × 2, depois 3 × 3…; conte cada tamanho e some.</p><div class="lista-titulo">Por tamanho</div><div class="lista"><span>1 por 1: 15</span><span>2 por 2: 8</span><span>3 por 3: 3</span></div></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Total: <b>26</b>.</p></div></div><div class="final"><b>Resposta:</b> 26</div></div></details></div><div class="item" id="ex-1c"><div><span class="letra">c)</span></div><div class="rolagem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 134 68" width="134" height="68" role="img" aria-label="malha quadriculada"><line x1="1" y1="1" x2="1" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="23" y1="1" x2="23" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="45" y1="1" x2="45" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="67" y1="1" x2="67" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="89" y1="1" x2="89" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="111" y1="1" x2="111" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="133" y1="1" x2="133" y2="67" stroke="currentColor" stroke-opacity=".5"/><line x1="1" y1="1" x2="133" y2="1" stroke="currentColor" stroke-opacity=".5"/><line x1="1" y1="23" x2="133" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="1" y1="45" x2="133" y2="45" stroke="currentColor" stroke-opacity=".5"/><line x1="1" y1="67" x2="133" y2="67" stroke="currentColor" stroke-opacity=".5"/></svg></div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Conte por tamanho, em tabela:</b> quadrados 1 × 1, depois 2 × 2, depois 3 × 3…; conte cada tamanho e some.</p><div class="lista-titulo">Por tamanho</div><div class="lista"><span>1 por 1: 18</span><span>2 por 2: 10</span><span>3 por 3: 4</span></div></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Total: <b>32</b>.</p></div></div><div class="final"><b>Resposta:</b> 32</div></div></details></div><div class="item" id="ex-1d"><div><span class="letra">d)</span></div><div class="rolagem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 134 24" width="134" height="24" role="img" aria-label="malha quadriculada"><line x1="1" y1="1" x2="1" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="23" y1="1" x2="23" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="45" y1="1" x2="45" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="67" y1="1" x2="67" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="89" y1="1" x2="89" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="111" y1="1" x2="111" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="133" y1="1" x2="133" y2="23" stroke="currentColor" stroke-opacity=".5"/><line x1="1" y1="1" x2="133" y2="1" stroke="currentColor" stroke-opacity=".5"/><line x1="1" y1="23" x2="133" y2="23" stroke="currentColor" stroke-opacity=".5"/></svg></div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Conte por tamanho, em tabela:</b> quadrados 1 × 1, depois 2 × 2, depois 3 × 3…; conte cada tamanho e some.</p><div class="lista-titulo">Por tamanho</div><div class="lista"><span>1 por 1: 6</span></div></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Total: <b>6</b>.</p></div></div><div class="final"><b>Resposta:</b> 6</div></div></details></div></article><article id="ex-2"><p class="cmd"><span class="num">2.</span>Uma tira tem 1 linha de quadradinhos, com a quantidade indicada. Quantos retângulos de todos os tamanhos há na tira (contando os quadradinhos)?</p><p class="exemplo"><b>Exemplo:</b> tira de 16 quadradinhos → 136</p><div class="item" id="ex-2a"><div><span class="letra">a)</span>tira de 16 quadradinhos</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Conte por tamanho, em tabela:</b> tamanho 1, tamanho 2… conte cada um e some.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Tamanho 1: 16; tamanho 2: 15; … ; tamanho 16: 1. Soma: <b>136</b>.</p></div></div><div class="final"><b>Resposta:</b> 136</div></div></details></div><div class="item" id="ex-2b"><div><span class="letra">b)</span>tira de 4 quadradinhos</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Conte por tamanho, em tabela:</b> tamanho 1, tamanho 2… conte cada um e some.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Tamanho 1: 4; tamanho 2: 3; … ; tamanho 4: 1. Soma: <b>10</b>.</p></div></div><div class="final"><b>Resposta:</b> 10</div></div></details></div><div class="item" id="ex-2c"><div><span class="letra">c)</span>tira de 2 quadradinhos</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Conte por tamanho, em tabela:</b> tamanho 1, tamanho 2… conte cada um e some.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Tamanho 1: 2; tamanho 2: 1; … ; tamanho 2: 1. Soma: <b>3</b>.</p></div></div><div class="final"><b>Resposta:</b> 3</div></div></details></div><div class="item" id="ex-2d"><div><span class="letra">d)</span>tira de 11 quadradinhos</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Conte por tamanho, em tabela:</b> tamanho 1, tamanho 2… conte cada um e some.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Tamanho 1: 11; tamanho 2: 10; … ; tamanho 11: 1. Soma: <b>66</b>.</p></div></div><div class="final"><b>Resposta:</b> 66</div></div></details></div></article>
+</main>
+<script>
+const form=document.getElementById('busca'),campo=document.getElementById('numero'),aviso=document.getElementById('aviso');
+function achar(v){
+  v=(v||'').toLowerCase().replace(/[.\s]/g,'');
+  if(!v)return false;
+  let alvo=document.getElementById('ex-'+v);
+  if(!alvo){const m=v.match(/^(\d+)/);if(m)alvo=document.getElementById('ex-'+m[1]);}
+  if(!alvo)return false;
+  document.querySelectorAll('.achado').forEach(e=>e.classList.remove('achado'));
+  alvo.classList.add('achado');
+  alvo.querySelectorAll('details').forEach(d=>d.open=true);
+  alvo.scrollIntoView({block:'start'});
+  return true;
+}
+form.addEventListener('submit',e=>{e.preventDefault();
+  aviso.textContent=achar(campo.value)?'':'Não achei esse número nesta seção. Confira o número no livro.';
+  if(!aviso.textContent)history.replaceState(null,'','#'+campo.value.replace(/[.\s]/g,''));});
+if(location.hash)achar(location.hash.slice(1));
+</script>
+</body></html>
