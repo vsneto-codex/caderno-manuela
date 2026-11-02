@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>6.1 Reforço: Número que falta · Passo a passo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{--fundo:#f6f7f9;--texto:#1d2330;--suave:#5f6878;--borda:#dfe3ea;--cartao:#fff;
+ --faixa:#eef1f5;--acento:#2b62b8;--acento-claro:#e6eefb;--certo:#1f7a4a;--certo-claro:#e5f4ec;
+ --dica:#8a5a00;--dica-claro:#fff6e0;--erro:#b3261e;
+ --letra:"Nunito","Segoe UI",system-ui,sans-serif;--numero:"Nunito","Segoe UI",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fundo:#14171c;--texto:#e8ebf0;
+ --suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;--faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;
+ --certo:#7fd3a4;--certo-claro:#173326;--dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}}
+:root[data-theme="dark"]{--fundo:#14171c;--texto:#e8ebf0;--suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;
+ --faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;--certo:#7fd3a4;--certo-claro:#173326;
+ --dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--texto);font:17px/1.55 var(--letra);font-variant-numeric:tabular-nums}
+header{position:sticky;top:0;background:var(--fundo);border-bottom:1px solid var(--borda);padding:12px 16px;z-index:2}
+header h1{font-size:1.15rem;margin:0 0 2px}
+header p{margin:0 0 8px;color:var(--suave);font-size:.9rem}
+form{display:flex;gap:8px;max-width:440px}
+input{flex:1;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--borda);border-radius:10px;background:var(--cartao);color:var(--texto)}
+input:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+button{font:inherit;font-weight:700;padding:8px 16px;border:0;border-radius:10px;background:var(--acento);color:var(--cartao);cursor:pointer}
+#aviso{color:var(--erro);font-size:.9rem;margin-top:4px;min-height:1.2em}
+main{max-width:780px;margin:0 auto;padding:12px 16px 80px}
+h2.nivel{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--suave);margin:32px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--borda)}
+article{background:var(--cartao);border:1px solid var(--borda);border-radius:14px;padding:16px 18px;margin:14px 0;scroll-margin-top:140px}
+article.achado{outline:3px solid var(--acento)}
+.num{display:inline-block;font-weight:800;color:var(--acento);margin-right:8px}
+.cmd{margin:0 0 8px;font-weight:600}
+.exemplo{margin:0 0 10px;padding:8px 12px;background:var(--faixa);border:1px solid var(--borda);border-radius:10px}
+.item{border-top:1px dashed var(--borda);padding:12px 0 6px;scroll-margin-top:140px}
+.item:first-of-type{border-top:0;padding-top:4px}
+.item.achado{background:var(--acento-claro);border-radius:10px;padding-inline:10px}
+.letra{font-weight:800;margin-right:6px}
+details{margin-top:8px}
+summary{cursor:pointer;color:var(--acento);font-weight:700;font-size:.95rem;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--acento);border-radius:999px}
+summary::-webkit-details-marker{display:none}
+details[open] summary{background:var(--acento);color:var(--cartao)}
+.solucao{margin-top:12px;display:grid;gap:12px}
+.passo{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.passo .n{width:28px;height:28px;border-radius:50%;background:var(--acento-claro);color:var(--acento);font-weight:800;display:grid;place-items:center;font-size:.9rem}
+.passo .corpo{min-width:0;display:grid;gap:8px;padding-top:2px}
+.passo p{margin:0}
+.dica{padding:8px 12px;border-radius:10px;background:var(--dica-claro);color:var(--texto);border-left:4px solid var(--dica);font-size:.95rem}
+.dica b{color:var(--dica)}
+.final{padding:10px 14px;border-radius:12px;background:var(--certo-claro);border:1px solid var(--certo);font-size:1.05rem}
+.final b{color:var(--certo)}
+.rolagem{overflow-x:auto}
+table.quadro{border-collapse:collapse;font-size:1rem;text-align:center}
+table.quadro th{font-size:.72rem;font-weight:700;color:var(--suave);padding:3px 8px;border:1px solid var(--borda);background:var(--faixa)}
+table.quadro th.cls{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+table.quadro td{border:1px solid var(--borda);padding:5px 10px;min-width:34px;font-weight:700;font-size:1.1rem}
+table.quadro td.rot{font-weight:600;font-size:.85rem;text-align:left;color:var(--suave);min-width:0}
+table.quadro td.v{font-weight:400;font-size:.78rem;color:var(--suave)}
+table.quadro .sep{border-left:3px solid var(--suave)}
+table.quadro td.hl{background:var(--texto);color:var(--cartao);border-radius:4px}
+table.quadro th.hl{background:var(--acento-claro);color:var(--acento)}
+.legenda{font-size:.78rem;color:var(--suave);margin-top:4px}
+table.conta{border-collapse:collapse;font-size:1.2rem;font-weight:700;margin-left:4px}
+table.conta td{padding:1px 2px;text-align:center;min-width:.7em}
+table.conta td.pt{min-width:0;padding:1px 0}
+table.conta td.op{color:var(--acento);text-align:center;width:26px;padding-right:6px}
+table.conta tr.res td{border-top:2px solid var(--texto);padding-top:3px}
+table.conta tr.res td.op{border-top:0}
+table.conta tr.reserva td{font-size:.75rem;color:var(--erro);font-weight:800;padding-bottom:0}
+.lista{display:flex;flex-wrap:wrap;gap:6px}
+.lista span{padding:3px 10px;border-radius:999px;background:var(--faixa);border:1px solid var(--borda);font-size:.95rem}
+.lista-titulo{font-size:.85rem;color:var(--suave)}
+.regra{background:var(--cartao);border:2px solid var(--texto);border-radius:14px;padding:12px 14px;margin:0 0 18px}
+.regra h2{margin:0 0 6px;font-size:1.05rem;letter-spacing:.03em}
+.regra h3{margin:12px 0 4px;font-size:.9rem;letter-spacing:.04em;color:var(--suave)}
+.regra p{margin:0}.regra table{border-collapse:collapse;width:100%;font-size:.92rem}
+.regra td,.regra th{border:1px solid var(--borda);padding:5px 7px;text-align:left;vertical-align:top}
+.regra th{background:var(--faixa);font-size:.78rem}
+.regra .cuidado{margin-top:10px;padding:8px 12px;border-radius:10px;border-left:4px solid var(--erro)}
+.erros{padding:8px 12px;border-radius:10px;border:1px solid var(--borda);border-left:4px solid var(--erro);font-size:.95rem}
+.erros b{color:var(--erro)}.erros ul{margin:4px 0 0;padding-left:1.1em}.erros li{margin:3px 0}
+.dest{display:inline-block;background:var(--texto);color:var(--cartao);font-weight:800;border-radius:4px;padding:0 4px;line-height:1.3}
+.caixa{display:inline-block;width:1.1em;height:1.1em;border:1.5px solid currentColor;border-radius:3px;vertical-align:-.2em}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .15em;font-size:.95em}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .2em}
+.fr>span:last-child{padding:0 .2em}
+.fr .caixa{width:.9em;height:.9em}
+.escada{border-collapse:collapse;margin:6px 0 6px 1em;font-variant-numeric:tabular-nums}
+.escada td{padding:1px 8px;text-align:right}
+.escada td+td{border-left:2px solid currentColor;text-align:center;min-width:1.6em}
+.escada .circ{display:inline-block;min-width:1.3em;border:1.5px solid currentColor;border-radius:50%}
+svg{max-width:100%;height:auto;display:block;color:var(--texto)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.logo{display:block;height:30px;width:auto;margin:0 0 8px;background:#fff;padding:4px 8px;border-radius:8px}</style></head>
+<body>
+<header>
+<img class="logo" src="https://colecaosuperbase.com.br/4v/logo-superbase.png" alt="SUPERBASE">
+<h1>Capítulo 6 · 6.1 Reforço: Número que falta</h1>
+<p>Resolução dos exercícios 1 a 5. Tente resolver antes de olhar!</p>
+<form id="busca"><input id="numero" inputmode="text" autocomplete="off" placeholder="Número do exercício (ex.: 1 ou 1a)" aria-label="Número do exercício"><button>Ir</button></form>
+<div id="aviso" role="status"></div>
+</header>
+<main>
+<section class="regra"><h2>REGRA: REFORÇO: NÚMERO QUE FALTA</h2><h3>O QUE É</h3><p>O sinal <b>=</b> funciona como uma balança equilibrada: os dois lados valem o mesmo. O quadradinho é um número escondido que deixa a balança equilibrada.</p><h3>COMO FAZER</h3><p>Desfaça a conta com a operação contrária (inversa): + desfaz com −; − desfaz com +; × desfaz com ÷; ÷ desfaz com ×. Depois confira, pondo o número no lugar do quadradinho.</p><h3>AS CONTRÁRIAS</h3><div class="rolagem"><table><tr><th></th><th>O QUE QUER DIZER</th><th>EXEMPLO</th></tr><tr><td><span class="caixa"></span> + 37 = 92</td><td>desfaça com −</td><td>92 − 37 = 55</td></tr><tr><td><span class="caixa"></span> − 20 = 45</td><td>desfaça com +</td><td>45 + 20 = 65</td></tr><tr><td>6 × <span class="caixa"></span> = 54</td><td>desfaça com ÷</td><td>54 ÷ 6 = 9</td></tr><tr><td><span class="caixa"></span> ÷ 4 = 7</td><td>desfaça com ×</td><td>7 × 4 = 28</td></tr></table></div><div class="cuidado"><b>Cuidado!</b> Sempre confira: 55 + 37 = 92. Se não der o resultado, tem erro.</div></section><h2 class="nivel">Treino</h2><article id="ex-1"><p class="cmd"><span class="num">1.</span>Que número vai no quadradinho para a igualdade ficar certa? Responda com o número.</p><p class="exemplo"><b>Exemplo:</b> <span class="caixa"></span> + 38 = 95 → 57</p><div class="item" id="ex-1a"><div><span class="letra">a)</span><span class="caixa"></span> − 198 = 28</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> − 198 = 28.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de − é +): 28 + 198 = 226.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Confira:</b> 226 − 198 = 28.</p></div></div><div class="final"><b>Resposta:</b> 226</div></div></details></div><div class="item" id="ex-1b"><div><span class="letra">b)</span><span class="caixa"></span> + 95 = 177</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> + 95 = 177.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de + é −): 177 − 95 = 82.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Confira:</b> 82 + 95 = 177.</p></div></div><div class="final"><b>Resposta:</b> 82</div></div></details></div><div class="item" id="ex-1c"><div><span class="letra">c)</span><span class="caixa"></span> + 177 = 513</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> + 177 = 513.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de + é −): 513 − 177 = 336.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Confira:</b> 336 + 177 = 513.</p></div></div><div class="final"><b>Resposta:</b> 336</div></div></details></div><div class="item" id="ex-1d"><div><span class="letra">d)</span><span class="caixa"></span> + 229 = 360</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> + 229 = 360.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de + é −): 360 − 229 = 131.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Confira:</b> 131 + 229 = 360.</p></div></div><div class="final"><b>Resposta:</b> 131</div></div></details></div></article><article id="ex-2"><p class="cmd"><span class="num">2.</span>Que número vai no quadradinho para a igualdade ficar certa? Responda com o número.</p><p class="exemplo"><b>Exemplo:</b> <span class="caixa"></span> × 7 = 84 → 12</p><div class="item" id="ex-2a"><div><span class="letra">a)</span><span class="caixa"></span> ÷ 12 = 19</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> ÷ 12 = 19.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de ÷ é ×): 19 × 12 = 228.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Confira:</b> 228 ÷ 12 = 19.</p></div></div><div class="final"><b>Resposta:</b> 228</div></div></details></div><div class="item" id="ex-2b"><div><span class="letra">b)</span><span class="caixa"></span> ÷ 2 = 35</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> ÷ 2 = 35.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de ÷ é ×): 35 × 2 = 70.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Confira:</b> 70 ÷ 2 = 35.</p></div></div><div class="final"><b>Resposta:</b> 70</div></div></details></div><div class="item" id="ex-2c"><div><span class="letra">c)</span><span class="caixa"></span> × 8 = 328</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> × 8 = 328.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de × é ÷): 328 ÷ 8 = 41.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Confira:</b> 41 × 8 = 328.</p></div></div><div class="final"><b>Resposta:</b> 41</div></div></details></div><div class="item" id="ex-2d"><div><span class="letra">d)</span><span class="caixa"></span> ÷ 5 = 22</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> ÷ 5 = 22.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de ÷ é ×): 22 × 5 = 110.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Confira:</b> 110 ÷ 5 = 22.</p></div></div><div class="final"><b>Resposta:</b> 110</div></div></details></div></article><article id="ex-3"><p class="cmd"><span class="num">3.</span>Que número vai no quadradinho para a igualdade ficar certa? Responda com o número.</p><p class="exemplo"><b>Exemplo:</b> <span class="caixa"></span> + 15 = 20 + 23 → 28</p><div class="item" id="ex-3a"><div><span class="letra">a)</span><span class="caixa"></span> − 257 = 2 × 70</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Calcule o lado completo:</b> 2 × 70 = 140.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> − 257 = 140.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de − é +): 140 + 257 = 397.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p><b>Confira:</b> 397 − 257 = 140.</p></div></div><div class="final"><b>Resposta:</b> 397</div></div></details></div><div class="item" id="ex-3b"><div><span class="letra">b)</span><span class="caixa"></span> + 296 = 222 + 299</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Calcule o lado completo:</b> 222 + 299 = 521.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> + 296 = 521.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de + é −): 521 − 296 = 225.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p><b>Confira:</b> 225 + 296 = 521.</p></div></div><div class="final"><b>Resposta:</b> 225</div></div></details></div><div class="item" id="ex-3c"><div><span class="letra">c)</span><span class="caixa"></span> + 255 = 2 × 319</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Calcule o lado completo:</b> 2 × 319 = 638.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> + 255 = 638.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de + é −): 638 − 255 = 383.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p><b>Confira:</b> 383 + 255 = 638.</p></div></div><div class="final"><b>Resposta:</b> 383</div></div></details></div><div class="item" id="ex-3d"><div><span class="letra">d)</span><span class="caixa"></span> − 287 = 1 + 0</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Calcule o lado completo:</b> 1 + 0 = 1.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> − 287 = 1.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de − é +): 1 + 287 = 288.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p><b>Confira:</b> 288 − 287 = 1.</p></div></div><div class="final"><b>Resposta:</b> 288</div></div></details></div></article><article id="ex-4"><p class="cmd"><span class="num">4.</span>Que número vai no quadradinho para a igualdade ficar certa? Responda com o número.</p><p class="exemplo"><b>Exemplo:</b> <span class="caixa"></span> × 8 = 4 × 12 → 6</p><div class="item" id="ex-4a"><div><span class="letra">a)</span><span class="caixa"></span> ÷ 2 = 2 × 11</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Calcule o lado completo:</b> 2 × 11 = 22.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> ÷ 2 = 22.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de ÷ é ×): 22 × 2 = 44.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p><b>Confira:</b> 44 ÷ 2 = 22.</p></div></div><div class="final"><b>Resposta:</b> 44</div></div></details></div><div class="item" id="ex-4b"><div><span class="letra">b)</span><span class="caixa"></span> × 3 = 2 × 21</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Calcule o lado completo:</b> 2 × 21 = 42.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> × 3 = 42.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de × é ÷): 42 ÷ 3 = 14.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p><b>Confira:</b> 14 × 3 = 42.</p></div></div><div class="final"><b>Resposta:</b> 14</div></div></details></div><div class="item" id="ex-4c"><div><span class="letra">c)</span><span class="caixa"></span> ÷ 5 = 2 × 30</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Calcule o lado completo:</b> 2 × 30 = 60.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> ÷ 5 = 60.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de ÷ é ×): 60 × 5 = 300.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p><b>Confira:</b> 300 ÷ 5 = 60.</p></div></div><div class="final"><b>Resposta:</b> 300</div></div></details></div><div class="item" id="ex-4d"><div><span class="letra">d)</span><span class="caixa"></span> × 7 = 79 + 12</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Calcule o lado completo:</b> 79 + 12 = 91.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>O outro lado precisa dar o mesmo:</b> <span class="caixa"></span> × 7 = 91.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Conta inversa</b> (o contrário de × é ÷): 91 ÷ 7 = 13.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p><b>Confira:</b> 13 × 7 = 91.</p></div></div><div class="final"><b>Resposta:</b> 13</div></div></details></div></article><article id="ex-5"><p class="cmd"><span class="num">5.</span>A igualdade é verdadeira ou falsa? Calcule os dois lados e compare. Responda “verdadeira” ou “falsa”.</p><p class="exemplo"><b>Exemplo:</b> 6 × 8 = 4 × 12 → verdadeira</p><div class="item" id="ex-5a"><div><span class="letra">a)</span>10 × 10 = 2 × 50</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Lado esquerdo:</b> 10 × 10 = 100.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Lado direito:</b> 2 × 50 = 100.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Compare:</b> 100 = 100: verdadeira.</p></div></div><div class="final"><b>Resposta:</b> verdadeira</div></div></details></div><div class="item" id="ex-5b"><div><span class="letra">b)</span>13 + 8 = 9 + 22</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Lado esquerdo:</b> 13 + 8 = 21.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Lado direito:</b> 9 + 22 = 31.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Compare:</b> 21 ≠ 31: falsa.</p></div></div><div class="final"><b>Resposta:</b> falsa</div></div></details></div><div class="item" id="ex-5c"><div><span class="letra">c)</span>4 × 9 = 4 × 9</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Lado esquerdo:</b> 4 × 9 = 36.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Lado direito:</b> 4 × 9 = 36.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Compare:</b> 36 = 36: verdadeira.</p></div></div><div class="final"><b>Resposta:</b> verdadeira</div></div></details></div><div class="item" id="ex-5d"><div><span class="letra">d)</span>30 + 18 = 38 + 10</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Lado esquerdo:</b> 30 + 18 = 48.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Lado direito:</b> 38 + 10 = 48.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Compare:</b> 48 = 48: verdadeira.</p></div></div><div class="final"><b>Resposta:</b> verdadeira</div></div></details></div></article>
+</main>
+<script>
+const form=document.getElementById('busca'),campo=document.getElementById('numero'),aviso=document.getElementById('aviso');
+function achar(v){
+  v=(v||'').toLowerCase().replace(/[.\s]/g,'');
+  if(!v)return false;
+  let alvo=document.getElementById('ex-'+v);
+  if(!alvo){const m=v.match(/^(\d+)/);if(m)alvo=document.getElementById('ex-'+m[1]);}
+  if(!alvo)return false;
+  document.querySelectorAll('.achado').forEach(e=>e.classList.remove('achado'));
+  alvo.classList.add('achado');
+  alvo.querySelectorAll('details').forEach(d=>d.open=true);
+  alvo.scrollIntoView({block:'start'});
+  return true;
+}
+form.addEventListener('submit',e=>{e.preventDefault();
+  aviso.textContent=achar(campo.value)?'':'Não achei esse número nesta seção. Confira o número no livro.';
+  if(!aviso.textContent)history.replaceState(null,'','#'+campo.value.replace(/[.\s]/g,''));});
+if(location.hash)achar(location.hash.slice(1));
+</script>
+</body></html>
