@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3.6 Reforço: MDC · Passo a passo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{--fundo:#f6f7f9;--texto:#1d2330;--suave:#5f6878;--borda:#dfe3ea;--cartao:#fff;
+ --faixa:#eef1f5;--acento:#2b62b8;--acento-claro:#e6eefb;--certo:#1f7a4a;--certo-claro:#e5f4ec;
+ --dica:#8a5a00;--dica-claro:#fff6e0;--erro:#b3261e;
+ --letra:"Nunito","Segoe UI",system-ui,sans-serif;--numero:"Nunito","Segoe UI",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fundo:#14171c;--texto:#e8ebf0;
+ --suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;--faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;
+ --certo:#7fd3a4;--certo-claro:#173326;--dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}}
+:root[data-theme="dark"]{--fundo:#14171c;--texto:#e8ebf0;--suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;
+ --faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;--certo:#7fd3a4;--certo-claro:#173326;
+ --dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--texto);font:17px/1.55 var(--letra);font-variant-numeric:tabular-nums}
+header{position:sticky;top:0;background:var(--fundo);border-bottom:1px solid var(--borda);padding:12px 16px;z-index:2}
+header h1{font-size:1.15rem;margin:0 0 2px}
+header p{margin:0 0 8px;color:var(--suave);font-size:.9rem}
+form{display:flex;gap:8px;max-width:440px}
+input{flex:1;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--borda);border-radius:10px;background:var(--cartao);color:var(--texto)}
+input:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+button{font:inherit;font-weight:700;padding:8px 16px;border:0;border-radius:10px;background:var(--acento);color:var(--cartao);cursor:pointer}
+#aviso{color:var(--erro);font-size:.9rem;margin-top:4px;min-height:1.2em}
+main{max-width:780px;margin:0 auto;padding:12px 16px 80px}
+h2.nivel{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--suave);margin:32px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--borda)}
+article{background:var(--cartao);border:1px solid var(--borda);border-radius:14px;padding:16px 18px;margin:14px 0;scroll-margin-top:140px}
+article.achado{outline:3px solid var(--acento)}
+.num{display:inline-block;font-weight:800;color:var(--acento);margin-right:8px}
+.cmd{margin:0 0 8px;font-weight:600}
+.exemplo{margin:0 0 10px;padding:8px 12px;background:var(--faixa);border:1px solid var(--borda);border-radius:10px}
+.item{border-top:1px dashed var(--borda);padding:12px 0 6px;scroll-margin-top:140px}
+.item:first-of-type{border-top:0;padding-top:4px}
+.item.achado{background:var(--acento-claro);border-radius:10px;padding-inline:10px}
+.letra{font-weight:800;margin-right:6px}
+details{margin-top:8px}
+summary{cursor:pointer;color:var(--acento);font-weight:700;font-size:.95rem;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--acento);border-radius:999px}
+summary::-webkit-details-marker{display:none}
+details[open] summary{background:var(--acento);color:var(--cartao)}
+.solucao{margin-top:12px;display:grid;gap:12px}
+.passo{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.passo .n{width:28px;height:28px;border-radius:50%;background:var(--acento-claro);color:var(--acento);font-weight:800;display:grid;place-items:center;font-size:.9rem}
+.passo .corpo{min-width:0;display:grid;gap:8px;padding-top:2px}
+.passo p{margin:0}
+.dica{padding:8px 12px;border-radius:10px;background:var(--dica-claro);color:var(--texto);border-left:4px solid var(--dica);font-size:.95rem}
+.dica b{color:var(--dica)}
+.final{padding:10px 14px;border-radius:12px;background:var(--certo-claro);border:1px solid var(--certo);font-size:1.05rem}
+.final b{color:var(--certo)}
+.rolagem{overflow-x:auto}
+table.quadro{border-collapse:collapse;font-size:1rem;text-align:center}
+table.quadro th{font-size:.72rem;font-weight:700;color:var(--suave);padding:3px 8px;border:1px solid var(--borda);background:var(--faixa)}
+table.quadro th.cls{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+table.quadro td{border:1px solid var(--borda);padding:5px 10px;min-width:34px;font-weight:700;font-size:1.1rem}
+table.quadro td.rot{font-weight:600;font-size:.85rem;text-align:left;color:var(--suave);min-width:0}
+table.quadro td.v{font-weight:400;font-size:.78rem;color:var(--suave)}
+table.quadro .sep{border-left:3px solid var(--suave)}
+table.quadro td.hl{background:var(--texto);color:var(--cartao);border-radius:4px}
+table.quadro th.hl{background:var(--acento-claro);color:var(--acento)}
+.legenda{font-size:.78rem;color:var(--suave);margin-top:4px}
+table.conta{border-collapse:collapse;font-size:1.2rem;font-weight:700;margin-left:4px}
+table.conta td{padding:1px 2px;text-align:center;min-width:.7em}
+table.conta td.pt{min-width:0;padding:1px 0}
+table.conta td.op{color:var(--acento);text-align:center;width:26px;padding-right:6px}
+table.conta tr.res td{border-top:2px solid var(--texto);padding-top:3px}
+table.conta tr.res td.op{border-top:0}
+table.conta tr.reserva td{font-size:.75rem;color:var(--erro);font-weight:800;padding-bottom:0}
+.lista{display:flex;flex-wrap:wrap;gap:6px}
+.lista span{padding:3px 10px;border-radius:999px;background:var(--faixa);border:1px solid var(--borda);font-size:.95rem}
+.lista-titulo{font-size:.85rem;color:var(--suave)}
+.regra{background:var(--cartao);border:2px solid var(--texto);border-radius:14px;padding:12px 14px;margin:0 0 18px}
+.regra h2{margin:0 0 6px;font-size:1.05rem;letter-spacing:.03em}
+.regra h3{margin:12px 0 4px;font-size:.9rem;letter-spacing:.04em;color:var(--suave)}
+.regra p{margin:0}.regra table{border-collapse:collapse;width:100%;font-size:.92rem}
+.regra td,.regra th{border:1px solid var(--borda);padding:5px 7px;text-align:left;vertical-align:top}
+.regra th{background:var(--faixa);font-size:.78rem}
+.regra .cuidado{margin-top:10px;padding:8px 12px;border-radius:10px;border-left:4px solid var(--erro)}
+.erros{padding:8px 12px;border-radius:10px;border:1px solid var(--borda);border-left:4px solid var(--erro);font-size:.95rem}
+.erros b{color:var(--erro)}.erros ul{margin:4px 0 0;padding-left:1.1em}.erros li{margin:3px 0}
+.dest{display:inline-block;background:var(--texto);color:var(--cartao);font-weight:800;border-radius:4px;padding:0 4px;line-height:1.3}
+.caixa{display:inline-block;width:1.1em;height:1.1em;border:1.5px solid currentColor;border-radius:3px;vertical-align:-.2em}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .15em;font-size:.95em}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .2em}
+.fr>span:last-child{padding:0 .2em}
+.fr .caixa{width:.9em;height:.9em}
+.escada{border-collapse:collapse;margin:6px 0 6px 1em;font-variant-numeric:tabular-nums}
+.escada td{padding:1px 8px;text-align:right}
+.escada td+td{border-left:2px solid currentColor;text-align:center;min-width:1.6em}
+.escada .circ{display:inline-block;min-width:1.3em;border:1.5px solid currentColor;border-radius:50%}
+svg{max-width:100%;height:auto;display:block;color:var(--texto)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.logo{display:block;height:30px;width:auto;margin:0 0 8px;background:#fff;padding:4px 8px;border-radius:8px}</style></head>
+<body>
+<header>
+<img class="logo" src="https://colecaosuperbase.com.br/4v/logo-superbase.png" alt="SUPERBASE">
+<h1>Capítulo 3 · 3.6 Reforço: MDC</h1>
+<p>Resolução dos exercícios 1 a 4. Tente resolver antes de olhar!</p>
+<form id="busca"><input id="numero" inputmode="text" autocomplete="off" placeholder="Número do exercício (ex.: 1 ou 1a)" aria-label="Número do exercício"><button>Ir</button></form>
+<div id="aviso" role="status"></div>
+</header>
+<main>
+<section class="regra"><h2>REGRA: REFORÇO: MDC</h2><h3>O QUE É</h3><p>O <b>MDC</b> (máximo divisor comum) de dois ou mais números é o maior número que divide todos eles ao mesmo tempo. Ele responde a perguntas como “qual é o maior tamanho para repartir sem sobrar?”.</p><h3>COMO FAZER</h3><p>Com números pequenos, liste os divisores de cada um e pegue o maior em comum. Pela fatoração: só os primos que aparecem em todos, cada um com o menor expoente. Pelas divisões sucessivas: divida o maior pelo menor, depois o divisor pelo resto, até o resto dar zero; o último divisor é o MDC.</p><h3>MDC(48, 60) DE TRÊS JEITOS</h3><div class="rolagem"><table><tr><th></th><th>O QUE QUER DIZER</th><th>EXEMPLO</th></tr><tr><td>Listando</td><td>divisores comuns: 1, 2, 3, 4, 6 e 12</td><td>o maior é 12</td></tr><tr><td>Fatoração</td><td>48 = 2<sup>4</sup> × 3 e 60 = 2<sup>2</sup> × 3 × 5</td><td>2<sup>2</sup> × 3 = 12</td></tr><tr><td>Divisões sucessivas</td><td>60 ÷ 48 = 1, resto 12 · 48 ÷ 12 = 4, resto 0</td><td>MDC = 12</td></tr><tr><td>Primos entre si</td><td>o MDC é 1</td><td>MDC(8, 9) = 1</td></tr></table></div><div class="cuidado"><b>Cuidado!</b> O MDC nunca é maior que o menor dos números. Se a sua conta deu mais, você achou um múltiplo, e não um divisor.</div><h3>NÃO CONFUNDA</h3><div class="rolagem"><table><tr><th></th><th>O QUE É</th><th>EXEMPLO</th></tr><tr><td>MDC</td><td>o maior divisor comum (menor ou igual aos números)</td><td>MDC(48, 60) = 12</td></tr><tr><td>Divisor comum</td><td>qualquer um que divide todos</td><td>1, 2, 3, 4, 6 e 12</td></tr></table></div></section><h2 class="nivel">Treino</h2><article id="ex-1"><p class="cmd"><span class="num">1.</span>Calcule o MDC (o maior divisor comum) pela escada dos primos, circulando o primo que divide todos.</p><p class="exemplo"><b>Exemplo:</b> MDC(24, 36) → 12</p><div class="item" id="ex-1a"><div><span class="letra">a)</span>MDC(28, 62)</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>A escada da 3.5:</b> <table class="escada"><tr><td>28, 62</td><td><span class=circ>2</span></td></tr><tr><td>14, 31</td><td>2</td></tr><tr><td>7, 31</td><td>7</td></tr><tr><td>1, 31</td><td>31</td></tr><tr><td>1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Circule</b> o primo da linha em que ele dividiu todos os números: 2.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MDC = só os circulados:</b> <b>2</b>.</p></div></div><div class="final"><b>Resposta:</b> 2</div></div></details></div><div class="item" id="ex-1b"><div><span class="letra">b)</span>MDC(42, 52)</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>A escada da 3.5:</b> <table class="escada"><tr><td>42, 52</td><td><span class=circ>2</span></td></tr><tr><td>21, 26</td><td>2</td></tr><tr><td>21, 13</td><td>3</td></tr><tr><td>7, 13</td><td>7</td></tr><tr><td>1, 13</td><td>13</td></tr><tr><td>1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Circule</b> o primo da linha em que ele dividiu todos os números: 2.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MDC = só os circulados:</b> <b>2</b>.</p></div></div><div class="final"><b>Resposta:</b> 2</div></div></details></div><div class="item" id="ex-1c"><div><span class="letra">c)</span>MDC(64, 92)</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>A escada da 3.5:</b> <table class="escada"><tr><td>64, 92</td><td><span class=circ>2</span></td></tr><tr><td>32, 46</td><td><span class=circ>2</span></td></tr><tr><td>16, 23</td><td>2</td></tr><tr><td>8, 23</td><td>2</td></tr><tr><td>4, 23</td><td>2</td></tr><tr><td>2, 23</td><td>2</td></tr><tr><td>1, 23</td><td>23</td></tr><tr><td>1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Circule</b> o primo da linha em que ele dividiu todos os números: 2, 2.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MDC = só os circulados:</b> 2 × 2 = <b>4</b>.</p></div></div><div class="final"><b>Resposta:</b> 4</div></div></details></div><div class="item" id="ex-1d"><div><span class="letra">d)</span>MDC(62, 78)</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>A escada da 3.5:</b> <table class="escada"><tr><td>62, 78</td><td><span class=circ>2</span></td></tr><tr><td>31, 39</td><td>3</td></tr><tr><td>31, 13</td><td>13</td></tr><tr><td>31, 1</td><td>31</td></tr><tr><td>1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Circule</b> o primo da linha em que ele dividiu todos os números: 2.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MDC = só os circulados:</b> <b>2</b>.</p></div></div><div class="final"><b>Resposta:</b> 2</div></div></details></div></article><article id="ex-2"><p class="cmd"><span class="num">2.</span>Calcule o MDC dos três números pela escada dos primos, circulando o primo que divide todos.</p><p class="exemplo"><b>Exemplo:</b> MDC(10, 35, 45) → 5</p><div class="item" id="ex-2a"><div><span class="letra">a)</span>MDC(45, 72, 126)</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>A escada da 3.5:</b> <table class="escada"><tr><td>45, 72, 126</td><td>2</td></tr><tr><td>45, 36, 63</td><td>2</td></tr><tr><td>45, 18, 63</td><td>2</td></tr><tr><td>45, 9, 63</td><td><span class=circ>3</span></td></tr><tr><td>15, 3, 21</td><td><span class=circ>3</span></td></tr><tr><td>5, 1, 7</td><td>5</td></tr><tr><td>1, 1, 7</td><td>7</td></tr><tr><td>1, 1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Circule</b> o primo da linha em que ele dividiu todos os números: 3, 3.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MDC = só os circulados:</b> 3 × 3 = <b>9</b>.</p></div></div><div class="final"><b>Resposta:</b> 9</div></div></details></div><div class="item" id="ex-2b"><div><span class="letra">b)</span>MDC(72, 108, 135)</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>A escada da 3.5:</b> <table class="escada"><tr><td>72, 108, 135</td><td>2</td></tr><tr><td>36, 54, 135</td><td>2</td></tr><tr><td>18, 27, 135</td><td>2</td></tr><tr><td>9, 27, 135</td><td><span class=circ>3</span></td></tr><tr><td>3, 9, 45</td><td><span class=circ>3</span></td></tr><tr><td>1, 3, 15</td><td>3</td></tr><tr><td>1, 1, 5</td><td>5</td></tr><tr><td>1, 1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Circule</b> o primo da linha em que ele dividiu todos os números: 3, 3.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MDC = só os circulados:</b> 3 × 3 = <b>9</b>.</p></div></div><div class="final"><b>Resposta:</b> 9</div></div></details></div><div class="item" id="ex-2c"><div><span class="letra">c)</span>MDC(33, 42, 54)</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>A escada da 3.5:</b> <table class="escada"><tr><td>33, 42, 54</td><td>2</td></tr><tr><td>33, 21, 27</td><td><span class=circ>3</span></td></tr><tr><td>11, 7, 9</td><td>3</td></tr><tr><td>11, 7, 3</td><td>3</td></tr><tr><td>11, 7, 1</td><td>7</td></tr><tr><td>11, 1, 1</td><td>11</td></tr><tr><td>1, 1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Circule</b> o primo da linha em que ele dividiu todos os números: 3.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MDC = só os circulados:</b> <b>3</b>.</p></div></div><div class="final"><b>Resposta:</b> 3</div></div></details></div><div class="item" id="ex-2d"><div><span class="letra">d)</span>MDC(120, 136, 144)</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>A escada da 3.5:</b> <table class="escada"><tr><td>120, 136, 144</td><td><span class=circ>2</span></td></tr><tr><td>60, 68, 72</td><td><span class=circ>2</span></td></tr><tr><td>30, 34, 36</td><td><span class=circ>2</span></td></tr><tr><td>15, 17, 18</td><td>2</td></tr><tr><td>15, 17, 9</td><td>3</td></tr><tr><td>5, 17, 3</td><td>3</td></tr><tr><td>5, 17, 1</td><td>5</td></tr><tr><td>1, 17, 1</td><td>17</td></tr><tr><td>1, 1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Circule</b> o primo da linha em que ele dividiu todos os números: 2, 2, 2.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MDC = só os circulados:</b> 2 × 2 × 2 = <b>8</b>.</p></div></div><div class="final"><b>Resposta:</b> 8</div></div></details></div></article><article id="ex-3"><p class="cmd"><span class="num">3.</span>Os números já estão decompostos. Escreva o MDC com potências: pegue só os primos que aparecem nos dois, cada um com o menor expoente (se não houver primo comum, o MDC é 1).</p><p class="exemplo"><b>Exemplo:</b> A = 2<sup>3</sup> × 3 × 5 e B = 2 × 3<sup>2</sup> → MDC = 2 × 3</p><div class="item" id="ex-3a"><div><span class="letra">a)</span>A = 2 × 7 e B = 2<sup>3</sup> × 3<sup>3</sup> × 7</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Primos que aparecem nos dois: 2 e 7.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Para cada um, o menor expoente: o 2: 1; o 7: 1.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>MDC = <b>2 × 7</b> (= 14).</p></div></div><div class="final"><b>Resposta:</b> 2 × 7</div></div></details></div><div class="item" id="ex-3b"><div><span class="letra">b)</span>A = 5 × 7<sup>3</sup> e B = 7<sup>3</sup></div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Primos que aparecem nos dois: 7.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Para cada um, o menor expoente: o 7: 3.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>MDC = <b>7<sup>3</sup></b> (= 343).</p></div></div><div class="final"><b>Resposta:</b> 7<sup>3</sup></div></div></details></div><div class="item" id="ex-3c"><div><span class="letra">c)</span>A = 5<sup>2</sup> × 7 e B = 5 × 7</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Primos que aparecem nos dois: 5 e 7.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Para cada um, o menor expoente: o 5: 1; o 7: 1.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>MDC = <b>5 × 7</b> (= 35).</p></div></div><div class="final"><b>Resposta:</b> 5 × 7</div></div></details></div><div class="item" id="ex-3d"><div><span class="letra">d)</span>A = 11 e B = 3 × 11</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Primos que aparecem nos dois: 11.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Para cada um, o menor expoente: o 11: 1.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>MDC = <b>11</b> (= 11).</p></div></div><div class="final"><b>Resposta:</b> 11</div></div></details></div></article><article id="ex-4"><p class="cmd"><span class="num">4.</span>Os números são primos entre si (o único divisor comum é o 1)? Responda “sim” ou “não, MDC = …”.</p><p class="exemplo"><b>Exemplo:</b> 15 e 28 → sim · 21 e 35 → não, MDC = 7</p><div class="item" id="ex-4a"><div><span class="letra">a)</span>10 e 14</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>10 = 2 × 5 e 14 = 2 × 7.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Os dois têm o fator 2 = 2. Resposta: <b>não, MDC = 2</b>.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>Cuidado: números primos entre si não precisam ser primos (8 e 9 são primos entre si).</p></div></div><div class="final"><b>Resposta:</b> não, MDC = 2</div></div></details></div><div class="item" id="ex-4b"><div><span class="letra">b)</span>51 e 85</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>51 = 3 × 17 e 85 = 5 × 17.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Os dois têm o fator 17 = 17. Resposta: <b>não, MDC = 17</b>.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>Cuidado: números primos entre si não precisam ser primos (8 e 9 são primos entre si).</p></div></div><div class="final"><b>Resposta:</b> não, MDC = 17</div></div></details></div><div class="item" id="ex-4c"><div><span class="letra">c)</span>12 e 16</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>12 = 2<sup>2</sup> × 3 e 16 = 2<sup>4</sup>.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Os dois têm o fator 2<sup>2</sup> = 4. Resposta: <b>não, MDC = 4</b>.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>Cuidado: números primos entre si não precisam ser primos (8 e 9 são primos entre si).</p></div></div><div class="final"><b>Resposta:</b> não, MDC = 4</div></div></details></div><div class="item" id="ex-4d"><div><span class="letra">d)</span>32 e 53</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>32 = 2<sup>5</sup> e 53 = 53.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Não há primo em comum: o único divisor comum é o 1. Resposta: <b>sim</b>.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>Cuidado: números primos entre si não precisam ser primos (8 e 9 são primos entre si).</p></div></div><div class="final"><b>Resposta:</b> sim</div></div></details></div></article>
+</main>
+<script>
+const form=document.getElementById('busca'),campo=document.getElementById('numero'),aviso=document.getElementById('aviso');
+function achar(v){
+  v=(v||'').toLowerCase().replace(/[.\s]/g,'');
+  if(!v)return false;
+  let alvo=document.getElementById('ex-'+v);
+  if(!alvo){const m=v.match(/^(\d+)/);if(m)alvo=document.getElementById('ex-'+m[1]);}
+  if(!alvo)return false;
+  document.querySelectorAll('.achado').forEach(e=>e.classList.remove('achado'));
+  alvo.classList.add('achado');
+  alvo.querySelectorAll('details').forEach(d=>d.open=true);
+  alvo.scrollIntoView({block:'start'});
+  return true;
+}
+form.addEventListener('submit',e=>{e.preventDefault();
+  aviso.textContent=achar(campo.value)?'':'Não achei esse número nesta seção. Confira o número no livro.';
+  if(!aviso.textContent)history.replaceState(null,'','#'+campo.value.replace(/[.\s]/g,''));});
+if(location.hash)achar(location.hash.slice(1));
+</script>
+</body></html>

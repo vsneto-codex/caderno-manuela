@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>9.1 Reforço: Comprimento, massa e capacidade · Passo a passo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{--fundo:#f6f7f9;--texto:#1d2330;--suave:#5f6878;--borda:#dfe3ea;--cartao:#fff;
+ --faixa:#eef1f5;--acento:#2b62b8;--acento-claro:#e6eefb;--certo:#1f7a4a;--certo-claro:#e5f4ec;
+ --dica:#8a5a00;--dica-claro:#fff6e0;--erro:#b3261e;
+ --letra:"Nunito","Segoe UI",system-ui,sans-serif;--numero:"Nunito","Segoe UI",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fundo:#14171c;--texto:#e8ebf0;
+ --suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;--faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;
+ --certo:#7fd3a4;--certo-claro:#173326;--dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}}
+:root[data-theme="dark"]{--fundo:#14171c;--texto:#e8ebf0;--suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;
+ --faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;--certo:#7fd3a4;--certo-claro:#173326;
+ --dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--texto);font:17px/1.55 var(--letra);font-variant-numeric:tabular-nums}
+header{position:sticky;top:0;background:var(--fundo);border-bottom:1px solid var(--borda);padding:12px 16px;z-index:2}
+header h1{font-size:1.15rem;margin:0 0 2px}
+header p{margin:0 0 8px;color:var(--suave);font-size:.9rem}
+form{display:flex;gap:8px;max-width:440px}
+input{flex:1;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--borda);border-radius:10px;background:var(--cartao);color:var(--texto)}
+input:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+button{font:inherit;font-weight:700;padding:8px 16px;border:0;border-radius:10px;background:var(--acento);color:var(--cartao);cursor:pointer}
+#aviso{color:var(--erro);font-size:.9rem;margin-top:4px;min-height:1.2em}
+main{max-width:780px;margin:0 auto;padding:12px 16px 80px}
+h2.nivel{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--suave);margin:32px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--borda)}
+article{background:var(--cartao);border:1px solid var(--borda);border-radius:14px;padding:16px 18px;margin:14px 0;scroll-margin-top:140px}
+article.achado{outline:3px solid var(--acento)}
+.num{display:inline-block;font-weight:800;color:var(--acento);margin-right:8px}
+.cmd{margin:0 0 8px;font-weight:600}
+.exemplo{margin:0 0 10px;padding:8px 12px;background:var(--faixa);border:1px solid var(--borda);border-radius:10px}
+.item{border-top:1px dashed var(--borda);padding:12px 0 6px;scroll-margin-top:140px}
+.item:first-of-type{border-top:0;padding-top:4px}
+.item.achado{background:var(--acento-claro);border-radius:10px;padding-inline:10px}
+.letra{font-weight:800;margin-right:6px}
+details{margin-top:8px}
+summary{cursor:pointer;color:var(--acento);font-weight:700;font-size:.95rem;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--acento);border-radius:999px}
+summary::-webkit-details-marker{display:none}
+details[open] summary{background:var(--acento);color:var(--cartao)}
+.solucao{margin-top:12px;display:grid;gap:12px}
+.passo{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.passo .n{width:28px;height:28px;border-radius:50%;background:var(--acento-claro);color:var(--acento);font-weight:800;display:grid;place-items:center;font-size:.9rem}
+.passo .corpo{min-width:0;display:grid;gap:8px;padding-top:2px}
+.passo p{margin:0}
+.dica{padding:8px 12px;border-radius:10px;background:var(--dica-claro);color:var(--texto);border-left:4px solid var(--dica);font-size:.95rem}
+.dica b{color:var(--dica)}
+.final{padding:10px 14px;border-radius:12px;background:var(--certo-claro);border:1px solid var(--certo);font-size:1.05rem}
+.final b{color:var(--certo)}
+.rolagem{overflow-x:auto}
+table.quadro{border-collapse:collapse;font-size:1rem;text-align:center}
+table.quadro th{font-size:.72rem;font-weight:700;color:var(--suave);padding:3px 8px;border:1px solid var(--borda);background:var(--faixa)}
+table.quadro th.cls{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+table.quadro td{border:1px solid var(--borda);padding:5px 10px;min-width:34px;font-weight:700;font-size:1.1rem}
+table.quadro td.rot{font-weight:600;font-size:.85rem;text-align:left;color:var(--suave);min-width:0}
+table.quadro td.v{font-weight:400;font-size:.78rem;color:var(--suave)}
+table.quadro .sep{border-left:3px solid var(--suave)}
+table.quadro td.hl{background:var(--texto);color:var(--cartao);border-radius:4px}
+table.quadro th.hl{background:var(--acento-claro);color:var(--acento)}
+.legenda{font-size:.78rem;color:var(--suave);margin-top:4px}
+table.conta{border-collapse:collapse;font-size:1.2rem;font-weight:700;margin-left:4px}
+table.conta td{padding:1px 2px;text-align:center;min-width:.7em}
+table.conta td.pt{min-width:0;padding:1px 0}
+table.conta td.op{color:var(--acento);text-align:center;width:26px;padding-right:6px}
+table.conta tr.res td{border-top:2px solid var(--texto);padding-top:3px}
+table.conta tr.res td.op{border-top:0}
+table.conta tr.reserva td{font-size:.75rem;color:var(--erro);font-weight:800;padding-bottom:0}
+.lista{display:flex;flex-wrap:wrap;gap:6px}
+.lista span{padding:3px 10px;border-radius:999px;background:var(--faixa);border:1px solid var(--borda);font-size:.95rem}
+.lista-titulo{font-size:.85rem;color:var(--suave)}
+.regra{background:var(--cartao);border:2px solid var(--texto);border-radius:14px;padding:12px 14px;margin:0 0 18px}
+.regra h2{margin:0 0 6px;font-size:1.05rem;letter-spacing:.03em}
+.regra h3{margin:12px 0 4px;font-size:.9rem;letter-spacing:.04em;color:var(--suave)}
+.regra p{margin:0}.regra table{border-collapse:collapse;width:100%;font-size:.92rem}
+.regra td,.regra th{border:1px solid var(--borda);padding:5px 7px;text-align:left;vertical-align:top}
+.regra th{background:var(--faixa);font-size:.78rem}
+.regra .cuidado{margin-top:10px;padding:8px 12px;border-radius:10px;border-left:4px solid var(--erro)}
+.erros{padding:8px 12px;border-radius:10px;border:1px solid var(--borda);border-left:4px solid var(--erro);font-size:.95rem}
+.erros b{color:var(--erro)}.erros ul{margin:4px 0 0;padding-left:1.1em}.erros li{margin:3px 0}
+.dest{display:inline-block;background:var(--texto);color:var(--cartao);font-weight:800;border-radius:4px;padding:0 4px;line-height:1.3}
+.caixa{display:inline-block;width:1.1em;height:1.1em;border:1.5px solid currentColor;border-radius:3px;vertical-align:-.2em}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .15em;font-size:.95em}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .2em}
+.fr>span:last-child{padding:0 .2em}
+.fr .caixa{width:.9em;height:.9em}
+.escada{border-collapse:collapse;margin:6px 0 6px 1em;font-variant-numeric:tabular-nums}
+.escada td{padding:1px 8px;text-align:right}
+.escada td+td{border-left:2px solid currentColor;text-align:center;min-width:1.6em}
+.escada .circ{display:inline-block;min-width:1.3em;border:1.5px solid currentColor;border-radius:50%}
+svg{max-width:100%;height:auto;display:block;color:var(--texto)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.logo{display:block;height:30px;width:auto;margin:0 0 8px;background:#fff;padding:4px 8px;border-radius:8px}</style></head>
+<body>
+<header>
+<img class="logo" src="https://colecaosuperbase.com.br/4v/logo-superbase.png" alt="SUPERBASE">
+<h1>Capítulo 9 · 9.1 Reforço: Comprimento, massa e capacidade</h1>
+<p>Resolução dos exercícios 1 a 7. Tente resolver antes de olhar!</p>
+<form id="busca"><input id="numero" inputmode="text" autocomplete="off" placeholder="Número do exercício (ex.: 1 ou 1a)" aria-label="Número do exercício"><button>Ir</button></form>
+<div id="aviso" role="status"></div>
+</header>
+<main>
+<section class="regra"><h2>REGRA: REFORÇO: COMPRIMENTO, MASSA E CAPACIDADE</h2><h3>O QUE É</h3><p>Comprimento, <b>massa</b> e capacidade usam a mesma escada de unidades: cada degrau vale 10 vezes o de baixo. Quilo (k) quer dizer mil; centi (c), centésimo; mili (m), milésimo.</p><h3>COMO FAZER</h3><p>Desenhe a escada km hm dam m dm cm mm (ou kg … mg, kL … mL). Descer um degrau: × 10 (a vírgula anda para a direita). Subir: ÷ 10. Conte os degraus antes de fazer a conta.</p><h3>ESCADA DO 10</h3><div class="rolagem"><table><tr><th></th><th>O QUE QUER DIZER</th><th>EXEMPLO</th></tr><tr><td>0,75 km → m</td><td>3 degraus para baixo: × 1.000</td><td>750 m</td></tr><tr><td>3.250 mL → L</td><td>3 degraus para cima: ÷ 1.000</td><td>3,25 L</td></tr><tr><td>2,5 t → kg</td><td>1 t = 1.000 kg</td><td>2.500 kg</td></tr></table></div><div class="cuidado"><b>Cuidado!</b> Antes de somar ou comparar, passe tudo para a mesma unidade: 1,2 km + 350 m não é 351,2.</div><h3>NÃO CONFUNDA</h3><div class="rolagem"><table><tr><th></th><th>O QUE É</th><th>EXEMPLO</th></tr><tr><td>Descer a escada</td><td>unidade menor: o número cresce</td><td>1 m = 100 cm</td></tr><tr><td>Subir a escada</td><td>unidade maior: o número diminui</td><td>500 g = 0,5 kg</td></tr></table></div></section><h2 class="nivel">Treino</h2><article id="ex-1"><p class="cmd"><span class="num">1.</span>Complete a conversão. Responda com um número (use vírgula se precisar).</p><p class="exemplo"><b>Exemplo:</b> 3,5 m = <span class="caixa"></span> cm → 350</p><div class="item" id="ex-1a"><div><span class="letra">a)</span>4.410 cm = <span class="caixa"></span> m</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1 m = 100 cm. Divida: 4.410 ÷ 100 = <b>44,1</b>.</p></div></div><div class="final"><b>Resposta:</b> 44,1</div></div></details></div><div class="item" id="ex-1b"><div><span class="letra">b)</span>68,9 cm = <span class="caixa"></span> mm</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1 cm = 10 mm. Multiplique: 68,9 × 10 = <b>689</b>.</p></div></div><div class="final"><b>Resposta:</b> 689</div></div></details></div><div class="item" id="ex-1c"><div><span class="letra">c)</span>526 m = <span class="caixa"></span> cm</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1 m = 100 cm. Multiplique: 526 × 100 = <b>52.600</b>.</p></div></div><div class="final"><b>Resposta:</b> 52.600</div></div></details></div><div class="item" id="ex-1d"><div><span class="letra">d)</span>6.491 mm = <span class="caixa"></span> cm</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1 cm = 10 mm. Divida: 6.491 ÷ 10 = <b>649,1</b>.</p></div></div><div class="final"><b>Resposta:</b> 649,1</div></div></details></div></article><article id="ex-2"><p class="cmd"><span class="num">2.</span>Complete a conversão. Responda com um número (use vírgula se precisar).</p><p class="exemplo"><b>Exemplo:</b> 2.500 g = <span class="caixa"></span> kg → 2,5</p><div class="item" id="ex-2a"><div><span class="letra">a)</span>2.456 g = <span class="caixa"></span> kg</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1 kg = 1.000 g. Divida: 2.456 ÷ 1.000 = <b>2,456</b>.</p></div></div><div class="final"><b>Resposta:</b> 2,456</div></div></details></div><div class="item" id="ex-2b"><div><span class="letra">b)</span>6.304 g = <span class="caixa"></span> kg</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1 kg = 1.000 g. Divida: 6.304 ÷ 1.000 = <b>6,304</b>.</p></div></div><div class="final"><b>Resposta:</b> 6,304</div></div></details></div><div class="item" id="ex-2c"><div><span class="letra">c)</span>7,3 kg = <span class="caixa"></span> g</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1 kg = 1.000 g. Multiplique: 7,3 × 1.000 = <b>7.300</b>.</p></div></div><div class="final"><b>Resposta:</b> 7.300</div></div></details></div><div class="item" id="ex-2d"><div><span class="letra">d)</span>4,65 kg = <span class="caixa"></span> g</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1 kg = 1.000 g. Multiplique: 4,65 × 1.000 = <b>4.650</b>.</p></div></div><div class="final"><b>Resposta:</b> 4.650</div></div></details></div></article><article id="ex-3"><p class="cmd"><span class="num">3.</span>Complete a conversão. Responda com um número (use vírgula se precisar).</p><p class="exemplo"><b>Exemplo:</b> 1,5 L = <span class="caixa"></span> mL → 1.500</p><div class="item" id="ex-3a"><div><span class="letra">a)</span>757 L = <span class="caixa"></span> mL</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1 L = 1.000 mL. Multiplique: 757 × 1.000 = <b>757.000</b>.</p></div></div><div class="final"><b>Resposta:</b> 757.000</div></div></details></div><div class="item" id="ex-3b"><div><span class="letra">b)</span>3,31 L = <span class="caixa"></span> mL</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1 L = 1.000 mL. Multiplique: 3,31 × 1.000 = <b>3.310</b>.</p></div></div><div class="final"><b>Resposta:</b> 3.310</div></div></details></div><div class="item" id="ex-3c"><div><span class="letra">c)</span>6.812 mL = <span class="caixa"></span> L</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1 L = 1.000 mL. Divida: 6.812 ÷ 1.000 = <b>6,812</b>.</p></div></div><div class="final"><b>Resposta:</b> 6,812</div></div></details></div><div class="item" id="ex-3d"><div><span class="letra">d)</span>5.220 mL = <span class="caixa"></span> L</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1 L = 1.000 mL. Divida: 5.220 ÷ 1.000 = <b>5,22</b>.</p></div></div><div class="final"><b>Resposta:</b> 5,22</div></div></details></div></article><article id="ex-4"><p class="cmd"><span class="num">4.</span>Desenhe a escada do 10 e conte os degraus. Complete a conversão (use vírgula se precisar).</p><p class="exemplo"><b>Exemplo:</b> 0,75 km = <span class="caixa"></span> m → 750</p><div class="item" id="ex-4a"><div><span class="letra">a)</span>5.854 m = <span class="caixa"></span> km</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Escada do 10:</b> de m até km são 3 degraus para cima: ÷ 1.000 (a vírgula anda 3 casas para a esquerda): <b>5,854</b>.</p></div></div><div class="final"><b>Resposta:</b> 5,854</div></div></details></div><div class="item" id="ex-4b"><div><span class="letra">b)</span>879,4 mg = <span class="caixa"></span> g</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Escada do 10:</b> de mg até g são 3 degraus para cima: ÷ 1.000 (a vírgula anda 3 casas para a esquerda): <b>0,8794</b>.</p></div></div><div class="final"><b>Resposta:</b> 0,8794</div></div></details></div><div class="item" id="ex-4c"><div><span class="letra">c)</span>419 g = <span class="caixa"></span> mg</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Escada do 10:</b> de g até mg são 3 degraus para baixo: × 1.000 (a vírgula anda 3 casas para a direita): <b>419.000</b>.</p></div></div><div class="final"><b>Resposta:</b> 419.000</div></div></details></div><div class="item" id="ex-4d"><div><span class="letra">d)</span>1.177 mg = <span class="caixa"></span> g</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Escada do 10:</b> de mg até g são 3 degraus para cima: ÷ 1.000 (a vírgula anda 3 casas para a esquerda): <b>1,177</b>.</p></div></div><div class="final"><b>Resposta:</b> 1,177</div></div></details></div></article><article id="ex-5"><p class="cmd"><span class="num">5.</span>Complete a conversão, lembrando: 1 t (tonelada) = 1.000 kg e 1 g = 1.000 mg (use vírgula se precisar).</p><p class="exemplo"><b>Exemplo:</b> 2,5 t = <span class="caixa"></span> kg → 2.500</p><div class="item" id="ex-5a"><div><span class="letra">a)</span>852 t = <span class="caixa"></span> kg</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>1 t = 1.000 kg:</b> × 1.000: 852 × 1.000 = <b>852.000</b>.</p></div></div><div class="final"><b>Resposta:</b> 852.000</div></div></details></div><div class="item" id="ex-5b"><div><span class="letra">b)</span>95.545 mg = <span class="caixa"></span> g</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>1 g = 1.000 mg:</b> ÷ 1.000: 95.545 ÷ 1.000 = <b>95,545</b>.</p></div></div><div class="final"><b>Resposta:</b> 95,545</div></div></details></div><div class="item" id="ex-5c"><div><span class="letra">c)</span>432 g = <span class="caixa"></span> mg</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>1 g = 1.000 mg:</b> × 1.000: 432 × 1.000 = <b>432.000</b>.</p></div></div><div class="final"><b>Resposta:</b> 432.000</div></div></details></div><div class="item" id="ex-5d"><div><span class="letra">d)</span>689 t = <span class="caixa"></span> kg</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>1 t = 1.000 kg:</b> × 1.000: 689 × 1.000 = <b>689.000</b>.</p></div></div><div class="final"><b>Resposta:</b> 689.000</div></div></details></div></article><article id="ex-6"><p class="cmd"><span class="num">6.</span>Passe para a mesma unidade e compare. Responda com &gt;, &lt; ou =.</p><p class="exemplo"><b>Exemplo:</b> 3,4 km <span class="caixa"></span> 3.040 m → &gt;</p><div class="item" id="ex-6a"><div><span class="letra">a)</span>27 g <span class="caixa"></span> 27.001 mg</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 27 g = 27.000 mg.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Compare:</b> 27.000 &lt; 27.001: <b>&lt;</b>.</p></div></div><div class="final"><b>Resposta:</b> &lt;</div></div></details></div><div class="item" id="ex-6b"><div><span class="letra">b)</span>27 L <span class="caixa"></span> 2.700 cL</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 27 L = 2.700 cL.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Compare:</b> 2.700 = 2.700: <b>=</b>.</p></div></div><div class="final"><b>Resposta:</b> =</div></div></details></div><div class="item" id="ex-6c"><div><span class="letra">c)</span>0,69 g <span class="caixa"></span> 690 mg</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 0,69 g = 690 mg.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Compare:</b> 690 = 690: <b>=</b>.</p></div></div><div class="final"><b>Resposta:</b> =</div></div></details></div><div class="item" id="ex-6d"><div><span class="letra">d)</span>45 m <span class="caixa"></span> 450 dm</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 45 m = 450 dm.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Compare:</b> 450 = 450: <b>=</b>.</p></div></div><div class="final"><b>Resposta:</b> =</div></div></details></div></article><article id="ex-7"><p class="cmd"><span class="num">7.</span>Passe tudo para a unidade pedida e depois some. Complete (use vírgula se precisar).</p><p class="exemplo"><b>Exemplo:</b> 1,2 km + 350 m = <span class="caixa"></span> m → 1.550</p><div class="item" id="ex-7a"><div><span class="letra">a)</span>24 L + 743 dL = <span class="caixa"></span> dL</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 24 L = 240 dL.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Some:</b> 240 + 743 = <b>983</b>.</p></div></div><div class="final"><b>Resposta:</b> 983</div></div></details></div><div class="item" id="ex-7b"><div><span class="letra">b)</span>0,3 L + 780 mL = <span class="caixa"></span> mL</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 0,3 L = 300 mL.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Some:</b> 300 + 780 = <b>1.080</b>.</p></div></div><div class="final"><b>Resposta:</b> 1.080</div></div></details></div><div class="item" id="ex-7c"><div><span class="letra">c)</span>39 L + 642 dL = <span class="caixa"></span> dL</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 39 L = 390 dL.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Some:</b> 390 + 642 = <b>1.032</b>.</p></div></div><div class="final"><b>Resposta:</b> 1.032</div></div></details></div><div class="item" id="ex-7d"><div><span class="letra">d)</span>86 cL + 544 mL = <span class="caixa"></span> mL</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 86 cL = 860 mL.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Some:</b> 860 + 544 = <b>1.404</b>.</p></div></div><div class="final"><b>Resposta:</b> 1.404</div></div></details></div></article>
+</main>
+<script>
+const form=document.getElementById('busca'),campo=document.getElementById('numero'),aviso=document.getElementById('aviso');
+function achar(v){
+  v=(v||'').toLowerCase().replace(/[.\s]/g,'');
+  if(!v)return false;
+  let alvo=document.getElementById('ex-'+v);
+  if(!alvo){const m=v.match(/^(\d+)/);if(m)alvo=document.getElementById('ex-'+m[1]);}
+  if(!alvo)return false;
+  document.querySelectorAll('.achado').forEach(e=>e.classList.remove('achado'));
+  alvo.classList.add('achado');
+  alvo.querySelectorAll('details').forEach(d=>d.open=true);
+  alvo.scrollIntoView({block:'start'});
+  return true;
+}
+form.addEventListener('submit',e=>{e.preventDefault();
+  aviso.textContent=achar(campo.value)?'':'Não achei esse número nesta seção. Confira o número no livro.';
+  if(!aviso.textContent)history.replaceState(null,'','#'+campo.value.replace(/[.\s]/g,''));});
+if(location.hash)achar(location.hash.slice(1));
+</script>
+</body></html>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>9.6 Reforço: Problemas · Passo a passo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{--fundo:#f6f7f9;--texto:#1d2330;--suave:#5f6878;--borda:#dfe3ea;--cartao:#fff;
+ --faixa:#eef1f5;--acento:#2b62b8;--acento-claro:#e6eefb;--certo:#1f7a4a;--certo-claro:#e5f4ec;
+ --dica:#8a5a00;--dica-claro:#fff6e0;--erro:#b3261e;
+ --letra:"Nunito","Segoe UI",system-ui,sans-serif;--numero:"Nunito","Segoe UI",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fundo:#14171c;--texto:#e8ebf0;
+ --suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;--faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;
+ --certo:#7fd3a4;--certo-claro:#173326;--dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}}
+:root[data-theme="dark"]{--fundo:#14171c;--texto:#e8ebf0;--suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;
+ --faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;--certo:#7fd3a4;--certo-claro:#173326;
+ --dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--texto);font:17px/1.55 var(--letra);font-variant-numeric:tabular-nums}
+header{position:sticky;top:0;background:var(--fundo);border-bottom:1px solid var(--borda);padding:12px 16px;z-index:2}
+header h1{font-size:1.15rem;margin:0 0 2px}
+header p{margin:0 0 8px;color:var(--suave);font-size:.9rem}
+form{display:flex;gap:8px;max-width:440px}
+input{flex:1;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--borda);border-radius:10px;background:var(--cartao);color:var(--texto)}
+input:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+button{font:inherit;font-weight:700;padding:8px 16px;border:0;border-radius:10px;background:var(--acento);color:var(--cartao);cursor:pointer}
+#aviso{color:var(--erro);font-size:.9rem;margin-top:4px;min-height:1.2em}
+main{max-width:780px;margin:0 auto;padding:12px 16px 80px}
+h2.nivel{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--suave);margin:32px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--borda)}
+article{background:var(--cartao);border:1px solid var(--borda);border-radius:14px;padding:16px 18px;margin:14px 0;scroll-margin-top:140px}
+article.achado{outline:3px solid var(--acento)}
+.num{display:inline-block;font-weight:800;color:var(--acento);margin-right:8px}
+.cmd{margin:0 0 8px;font-weight:600}
+.exemplo{margin:0 0 10px;padding:8px 12px;background:var(--faixa);border:1px solid var(--borda);border-radius:10px}
+.item{border-top:1px dashed var(--borda);padding:12px 0 6px;scroll-margin-top:140px}
+.item:first-of-type{border-top:0;padding-top:4px}
+.item.achado{background:var(--acento-claro);border-radius:10px;padding-inline:10px}
+.letra{font-weight:800;margin-right:6px}
+details{margin-top:8px}
+summary{cursor:pointer;color:var(--acento);font-weight:700;font-size:.95rem;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--acento);border-radius:999px}
+summary::-webkit-details-marker{display:none}
+details[open] summary{background:var(--acento);color:var(--cartao)}
+.solucao{margin-top:12px;display:grid;gap:12px}
+.passo{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.passo .n{width:28px;height:28px;border-radius:50%;background:var(--acento-claro);color:var(--acento);font-weight:800;display:grid;place-items:center;font-size:.9rem}
+.passo .corpo{min-width:0;display:grid;gap:8px;padding-top:2px}
+.passo p{margin:0}
+.dica{padding:8px 12px;border-radius:10px;background:var(--dica-claro);color:var(--texto);border-left:4px solid var(--dica);font-size:.95rem}
+.dica b{color:var(--dica)}
+.final{padding:10px 14px;border-radius:12px;background:var(--certo-claro);border:1px solid var(--certo);font-size:1.05rem}
+.final b{color:var(--certo)}
+.rolagem{overflow-x:auto}
+table.quadro{border-collapse:collapse;font-size:1rem;text-align:center}
+table.quadro th{font-size:.72rem;font-weight:700;color:var(--suave);padding:3px 8px;border:1px solid var(--borda);background:var(--faixa)}
+table.quadro th.cls{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+table.quadro td{border:1px solid var(--borda);padding:5px 10px;min-width:34px;font-weight:700;font-size:1.1rem}
+table.quadro td.rot{font-weight:600;font-size:.85rem;text-align:left;color:var(--suave);min-width:0}
+table.quadro td.v{font-weight:400;font-size:.78rem;color:var(--suave)}
+table.quadro .sep{border-left:3px solid var(--suave)}
+table.quadro td.hl{background:var(--texto);color:var(--cartao);border-radius:4px}
+table.quadro th.hl{background:var(--acento-claro);color:var(--acento)}
+.legenda{font-size:.78rem;color:var(--suave);margin-top:4px}
+table.conta{border-collapse:collapse;font-size:1.2rem;font-weight:700;margin-left:4px}
+table.conta td{padding:1px 2px;text-align:center;min-width:.7em}
+table.conta td.pt{min-width:0;padding:1px 0}
+table.conta td.op{color:var(--acento);text-align:center;width:26px;padding-right:6px}
+table.conta tr.res td{border-top:2px solid var(--texto);padding-top:3px}
+table.conta tr.res td.op{border-top:0}
+table.conta tr.reserva td{font-size:.75rem;color:var(--erro);font-weight:800;padding-bottom:0}
+.lista{display:flex;flex-wrap:wrap;gap:6px}
+.lista span{padding:3px 10px;border-radius:999px;background:var(--faixa);border:1px solid var(--borda);font-size:.95rem}
+.lista-titulo{font-size:.85rem;color:var(--suave)}
+.regra{background:var(--cartao);border:2px solid var(--texto);border-radius:14px;padding:12px 14px;margin:0 0 18px}
+.regra h2{margin:0 0 6px;font-size:1.05rem;letter-spacing:.03em}
+.regra h3{margin:12px 0 4px;font-size:.9rem;letter-spacing:.04em;color:var(--suave)}
+.regra p{margin:0}.regra table{border-collapse:collapse;width:100%;font-size:.92rem}
+.regra td,.regra th{border:1px solid var(--borda);padding:5px 7px;text-align:left;vertical-align:top}
+.regra th{background:var(--faixa);font-size:.78rem}
+.regra .cuidado{margin-top:10px;padding:8px 12px;border-radius:10px;border-left:4px solid var(--erro)}
+.erros{padding:8px 12px;border-radius:10px;border:1px solid var(--borda);border-left:4px solid var(--erro);font-size:.95rem}
+.erros b{color:var(--erro)}.erros ul{margin:4px 0 0;padding-left:1.1em}.erros li{margin:3px 0}
+.dest{display:inline-block;background:var(--texto);color:var(--cartao);font-weight:800;border-radius:4px;padding:0 4px;line-height:1.3}
+.caixa{display:inline-block;width:1.1em;height:1.1em;border:1.5px solid currentColor;border-radius:3px;vertical-align:-.2em}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .15em;font-size:.95em}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .2em}
+.fr>span:last-child{padding:0 .2em}
+.fr .caixa{width:.9em;height:.9em}
+.escada{border-collapse:collapse;margin:6px 0 6px 1em;font-variant-numeric:tabular-nums}
+.escada td{padding:1px 8px;text-align:right}
+.escada td+td{border-left:2px solid currentColor;text-align:center;min-width:1.6em}
+.escada .circ{display:inline-block;min-width:1.3em;border:1.5px solid currentColor;border-radius:50%}
+svg{max-width:100%;height:auto;display:block;color:var(--texto)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.logo{display:block;height:30px;width:auto;margin:0 0 8px;background:#fff;padding:4px 8px;border-radius:8px}</style></head>
+<body>
+<header>
+<img class="logo" src="https://colecaosuperbase.com.br/4v/logo-superbase.png" alt="SUPERBASE">
+<h1>Capítulo 9 · 9.6 Reforço: Problemas</h1>
+<p>Resolução dos exercícios 1 a 6. Tente resolver antes de olhar!</p>
+<form id="busca"><input id="numero" inputmode="text" autocomplete="off" placeholder="Número do exercício (ex.: 1 ou 1a)" aria-label="Número do exercício"><button>Ir</button></form>
+<div id="aviso" role="status"></div>
+</header>
+<main>
+<section class="regra"><h2>REGRA: REFORÇO: PROBLEMAS</h2><h3>O QUE É</h3><p>Nos problemas do dia a dia, as medidas chegam em unidades diferentes: metros e centímetros, litros e mililitros, horas e minutos. Cada <b>unidade de medida</b> tem o seu lugar na conta.</p><h3>COMO FAZER</h3><p>Os 4 passos: entenda, planeje, faça, confira. Antes de calcular, passe tudo para a mesma unidade. No fim, confira se a resposta está na unidade pedida.</p><h3>3 L DE SUCO EM COPOS DE 200 ML</h3><div class="rolagem"><table><tr><th></th><th>O QUE QUER DIZER</th><th>EXEMPLO</th></tr><tr><td>Mesma unidade</td><td>3 L = 3.000 mL</td><td>3.000 mL</td></tr><tr><td>Divida</td><td>3.000 ÷ 200</td><td>15</td></tr><tr><td>Confira</td><td>15 × 200</td><td>3.000 mL</td></tr></table></div><div class="cuidado"><b>Cuidado!</b> Quando a divisão sobra (latas, caixas, viagens), pense: precisa de mais uma inteira?</div><h3>NÃO CONFUNDA</h3><div class="rolagem"><table><tr><th></th><th>O QUE É</th><th>EXEMPLO</th></tr><tr><td>Somar medidas</td><td>mesma unidade antes</td><td>1,5 m + 30 cm = 180 cm</td></tr><tr><td>Comparar preços</td><td>mesma quantidade</td><td>preço de 1 kg nos dois</td></tr></table></div></section><h2 class="nivel">Treino</h2><article id="ex-1"><p class="cmd"><span class="num">1.</span>Passe para a mesma unidade antes de calcular. Quanto sobrou? Responda com a medida e a unidade pedida.</p><p class="exemplo"><b>Exemplo:</b> Havia 1,5 m de fita e foram usados 80 cm. Quanto sobrou, em cm? → 70 cm</p><div class="item" id="ex-1a"><div><span class="letra">a)</span>Havia 5,8 L de suco e foram usados 1.406 mL. Quanto sobrou, em mL?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 5,8 L = 5.800 mL.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Tire:</b> 5.800 − 1.406 = <b>4.394 mL</b>.</p></div></div><div class="final"><b>Resposta:</b> 4.394 mL</div></div></details></div><div class="item" id="ex-1b"><div><span class="letra">b)</span>Havia 1,7 kg de arroz e foram usados 826 g. Quanto sobrou, em g?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 1,7 kg = 1.700 g.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Tire:</b> 1.700 − 826 = <b>874 g</b>.</p></div></div><div class="final"><b>Resposta:</b> 874 g</div></div></details></div><div class="item" id="ex-1c"><div><span class="letra">c)</span>Havia 5,3 m de corda e foram usados 396 cm. Quanto sobrou, em cm?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 5,3 m = 530 cm.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Tire:</b> 530 − 396 = <b>134 cm</b>.</p></div></div><div class="final"><b>Resposta:</b> 134 cm</div></div></details></div><div class="item" id="ex-1d"><div><span class="letra">d)</span>Havia 3,2 kg de farinha e foram usados 2.152 g. Quanto sobrou, em g?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 3,2 kg = 3.200 g.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Tire:</b> 3.200 − 2.152 = <b>1.048 g</b>.</p></div></div><div class="final"><b>Resposta:</b> 1.048 g</div></div></details></div></article><article id="ex-2"><p class="cmd"><span class="num">2.</span>Passe para a mesma unidade e divida. Quantas porções inteiras dá para fazer? Responda com o número.</p><p class="exemplo"><b>Exemplo:</b> Com um pacote de 1 kg de farinha, cada bolo usa 250 g. Quantas porções (cada bolo é uma) dá para fazer? → 4</p><div class="item" id="ex-2a"><div><span class="letra">a)</span>Com um saco de 5 kg de ração, cada porção usa 300 g. Quantas porções (cada porção é uma) dá para fazer?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 5 kg = 5.000 g.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Divida:</b> 5.000 ÷ 300 = 16, sobram 200. <b>16</b>.</p></div></div><div class="final"><b>Resposta:</b> 16</div></div></details></div><div class="item" id="ex-2b"><div><span class="letra">b)</span>Com um rolo de 5 m de fita, cada laço usa 80 cm. Quantas porções (cada laço é uma) dá para fazer?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 5 m = 500 cm.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Divida:</b> 500 ÷ 80 = 6, sobram 20. <b>6</b>.</p></div></div><div class="final"><b>Resposta:</b> 6</div></div></details></div><div class="item" id="ex-2c"><div><span class="letra">c)</span>Com um saco de 3 kg de ração, cada porção usa 40 g. Quantas porções (cada porção é uma) dá para fazer?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 3 kg = 3.000 g.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Divida:</b> 3.000 ÷ 40 = 75. <b>75</b>.</p></div></div><div class="final"><b>Resposta:</b> 75</div></div></details></div><div class="item" id="ex-2d"><div><span class="letra">d)</span>Com uma garrafa de 4,5 L de suco, cada copo usa 120 mL. Quantas porções (cada copo é uma) dá para fazer?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Mesma unidade:</b> 4,5 L = 4.500 mL.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Divida:</b> 4.500 ÷ 120 = 37, sobram 60. <b>37</b>.</p></div></div><div class="final"><b>Resposta:</b> 37</div></div></details></div></article><article id="ex-3"><p class="cmd"><span class="num">3.</span>Resolva cada problema (passe para a mesma unidade antes). Responda com o número.</p><p class="exemplo"><b>Exemplo:</b> Uma garrafa tem 1 L de suco. Ana vai servir em copos de 200 mL, todos cheios. Quantos copos vai encher? → 5</p><div class="item" id="ex-3a"><div><span class="letra">a)</span>Uma garrafa tem 1,2 L de suco. Lívia vai servir em copos de 200 mL, todos cheios. Quantos copos vai encher?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1,2 L = 1.200 mL. 1.200 ÷ 200 = <b>6</b>.</p></div></div><div class="final"><b>Resposta:</b> 6</div></div></details></div><div class="item" id="ex-3b"><div><span class="letra">b)</span>Uma garrafa tem 1,35 L de suco. Miguel vai servir em copos de 150 mL, todos cheios. Quantos copos vai encher?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1,35 L = 1.350 mL. 1.350 ÷ 150 = <b>9</b>.</p></div></div><div class="final"><b>Resposta:</b> 9</div></div></details></div><div class="item" id="ex-3c"><div><span class="letra">c)</span>Uma garrafa tem 1,6 L de suco. Bernardo vai servir em copos de 200 mL, todos cheios. Quantos copos vai encher?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>1,6 L = 1.600 mL. 1.600 ÷ 200 = <b>8</b>.</p></div></div><div class="final"><b>Resposta:</b> 8</div></div></details></div><div class="item" id="ex-3d"><div><span class="letra">d)</span>Uma garrafa tem 0,9 L de suco. Otávio vai servir em copos de 300 mL, todos cheios. Quantos copos vai encher?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>0,9 L = 900 mL. 900 ÷ 300 = <b>3</b>.</p></div></div><div class="final"><b>Resposta:</b> 3</div></div></details></div></article><article id="ex-4"><p class="cmd"><span class="num">4.</span>Resolva cada problema. Responda com o número.</p><p class="exemplo"><b>Exemplo:</b> Um ônibus anda 30 km a cada hora. Quantos quilômetros ele anda em 5 horas e meia? → 165</p><div class="item" id="ex-4a"><div><span class="letra">a)</span>Um ônibus anda 35 km a cada hora. Quantos quilômetros ele anda em 7 horas?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>7 horas: 35 × 7 = 245 km.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Total: <b>245</b>.</p></div></div><div class="final"><b>Resposta:</b> 245</div></div></details></div><div class="item" id="ex-4b"><div><span class="letra">b)</span>Um ônibus anda 65 km a cada hora. Quantos quilômetros ele anda em 2 horas?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>2 horas: 65 × 2 = 130 km.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Total: <b>130</b>.</p></div></div><div class="final"><b>Resposta:</b> 130</div></div></details></div><div class="item" id="ex-4c"><div><span class="letra">c)</span>Um ônibus anda 70 km a cada hora. Quantos quilômetros ele anda em 9 horas?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>9 horas: 70 × 9 = 630 km.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Total: <b>630</b>.</p></div></div><div class="final"><b>Resposta:</b> 630</div></div></details></div><div class="item" id="ex-4d"><div><span class="letra">d)</span>Um ônibus anda 45 km a cada hora. Quantos quilômetros ele anda em 3 horas?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>3 horas: 45 × 3 = 135 km.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Total: <b>135</b>.</p></div></div><div class="final"><b>Resposta:</b> 135</div></div></details></div></article><article id="ex-5"><p class="cmd"><span class="num">5.</span>Resolva cada problema. Responda com o horário (assim: 10h30) ou com o tempo (assim: 2 h 15 min), como a pergunta pedir.</p><p class="exemplo"><b>Exemplo:</b> Kátia saiu de casa às 7h10. A viagem durou 2 h. A que horas chegou? Responda assim: 16h25. → 9h10</p><div class="item" id="ex-5a"><div><span class="letra">a)</span>Bruno saiu de casa às 18h05. A viagem durou 2 h 30 min. A que horas chegou? Responda assim: 16h25.</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Início: 18h05. Duração: 2 h 30 min. Fim: 20h35.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Resposta: <b>20h35</b>.</p></div></div><div class="final"><b>Resposta:</b> 20h35</div></div></details></div><div class="item" id="ex-5b"><div><span class="letra">b)</span>O filme começou às 18h55 e terminou às 21h30. Quanto tempo durou o filme? Responda assim: 1 h 35 min.</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Início: 18h55. Duração: 2 h 35 min. Fim: 21h30.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Resposta: <b>2 h 35 min</b>.</p></div></div><div class="final"><b>Resposta:</b> 2 h 35 min</div></div></details></div><div class="item" id="ex-5c"><div><span class="letra">c)</span>A aula de música de Tainá começa às 13h15 e dura 2 h 50 min. A que horas termina? Responda assim: 16h25.</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Início: 13h15. Duração: 2 h 50 min. Fim: 16h05.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Resposta: <b>16h05</b>.</p></div></div><div class="final"><b>Resposta:</b> 16h05</div></div></details></div><div class="item" id="ex-5d"><div><span class="letra">d)</span>O ônibus saiu às 15h40 e chegou às 17h20. Quanto tempo durou a viagem? Responda assim: 1 h 35 min.</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Início: 15h40. Duração: 1 h 40 min. Fim: 17h20.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Resposta: <b>1 h 40 min</b>.</p></div></div><div class="final"><b>Resposta:</b> 1 h 40 min</div></div></details></div></article><article id="ex-6"><p class="cmd"><span class="num">6.</span>Resolva cada problema (passe para a mesma unidade antes). Responda com o número.</p><p class="exemplo"><b>Exemplo:</b> Um piso retangular de 8 m por 3 m vai ser coberto com lajotas quadradas de 20 cm de lado. Quantas lajotas são precisas? → 600</p><div class="item" id="ex-6a"><div><span class="letra">a)</span>Um piso retangular de 3 m por 7 m vai ser coberto com lajotas quadradas de 50 cm de lado. Quantas lajotas são precisas?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Em 1 metro cabem 100 ÷ 50 = 2 lajotas em fila. Num quadrado de 1 m × 1 m: 2 × 2 = 4.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Área do piso: 3 × 7 = 21 m². Lajotas: 21 × 4 = <b>84</b>.</p></div></div><div class="final"><b>Resposta:</b> 84</div></div></details></div><div class="item" id="ex-6b"><div><span class="letra">b)</span>Um piso retangular de 6 m por 7 m vai ser coberto com lajotas quadradas de 20 cm de lado. Quantas lajotas são precisas?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Em 1 metro cabem 100 ÷ 20 = 5 lajotas em fila. Num quadrado de 1 m × 1 m: 5 × 5 = 25.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Área do piso: 6 × 7 = 42 m². Lajotas: 42 × 25 = <b>1.050</b>.</p></div></div><div class="final"><b>Resposta:</b> 1.050</div></div></details></div><div class="item" id="ex-6c"><div><span class="letra">c)</span>Um piso retangular de 7 m por 10 m vai ser coberto com lajotas quadradas de 25 cm de lado. Quantas lajotas são precisas?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Em 1 metro cabem 100 ÷ 25 = 4 lajotas em fila. Num quadrado de 1 m × 1 m: 4 × 4 = 16.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Área do piso: 7 × 10 = 70 m². Lajotas: 70 × 16 = <b>1.120</b>.</p></div></div><div class="final"><b>Resposta:</b> 1.120</div></div></details></div><div class="item" id="ex-6d"><div><span class="letra">d)</span>Um piso retangular de 3 m por 6 m vai ser coberto com lajotas quadradas de 25 cm de lado. Quantas lajotas são precisas?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Em 1 metro cabem 100 ÷ 25 = 4 lajotas em fila. Num quadrado de 1 m × 1 m: 4 × 4 = 16.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Área do piso: 3 × 6 = 18 m². Lajotas: 18 × 16 = <b>288</b>.</p></div></div><div class="final"><b>Resposta:</b> 288</div></div></details></div></article>
+</main>
+<script>
+const form=document.getElementById('busca'),campo=document.getElementById('numero'),aviso=document.getElementById('aviso');
+function achar(v){
+  v=(v||'').toLowerCase().replace(/[.\s]/g,'');
+  if(!v)return false;
+  let alvo=document.getElementById('ex-'+v);
+  if(!alvo){const m=v.match(/^(\d+)/);if(m)alvo=document.getElementById('ex-'+m[1]);}
+  if(!alvo)return false;
+  document.querySelectorAll('.achado').forEach(e=>e.classList.remove('achado'));
+  alvo.classList.add('achado');
+  alvo.querySelectorAll('details').forEach(d=>d.open=true);
+  alvo.scrollIntoView({block:'start'});
+  return true;
+}
+form.addEventListener('submit',e=>{e.preventDefault();
+  aviso.textContent=achar(campo.value)?'':'Não achei esse número nesta seção. Confira o número no livro.';
+  if(!aviso.textContent)history.replaceState(null,'','#'+campo.value.replace(/[.\s]/g,''));});
+if(location.hash)achar(location.hash.slice(1));
+</script>
+</body></html>

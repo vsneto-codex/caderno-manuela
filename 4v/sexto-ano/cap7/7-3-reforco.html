@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>7.3 Reforço: Razão e partilha · Passo a passo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{--fundo:#f6f7f9;--texto:#1d2330;--suave:#5f6878;--borda:#dfe3ea;--cartao:#fff;
+ --faixa:#eef1f5;--acento:#2b62b8;--acento-claro:#e6eefb;--certo:#1f7a4a;--certo-claro:#e5f4ec;
+ --dica:#8a5a00;--dica-claro:#fff6e0;--erro:#b3261e;
+ --letra:"Nunito","Segoe UI",system-ui,sans-serif;--numero:"Nunito","Segoe UI",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fundo:#14171c;--texto:#e8ebf0;
+ --suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;--faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;
+ --certo:#7fd3a4;--certo-claro:#173326;--dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}}
+:root[data-theme="dark"]{--fundo:#14171c;--texto:#e8ebf0;--suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;
+ --faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;--certo:#7fd3a4;--certo-claro:#173326;
+ --dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--texto);font:17px/1.55 var(--letra);font-variant-numeric:tabular-nums}
+header{position:sticky;top:0;background:var(--fundo);border-bottom:1px solid var(--borda);padding:12px 16px;z-index:2}
+header h1{font-size:1.15rem;margin:0 0 2px}
+header p{margin:0 0 8px;color:var(--suave);font-size:.9rem}
+form{display:flex;gap:8px;max-width:440px}
+input{flex:1;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--borda);border-radius:10px;background:var(--cartao);color:var(--texto)}
+input:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+button{font:inherit;font-weight:700;padding:8px 16px;border:0;border-radius:10px;background:var(--acento);color:var(--cartao);cursor:pointer}
+#aviso{color:var(--erro);font-size:.9rem;margin-top:4px;min-height:1.2em}
+main{max-width:780px;margin:0 auto;padding:12px 16px 80px}
+h2.nivel{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--suave);margin:32px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--borda)}
+article{background:var(--cartao);border:1px solid var(--borda);border-radius:14px;padding:16px 18px;margin:14px 0;scroll-margin-top:140px}
+article.achado{outline:3px solid var(--acento)}
+.num{display:inline-block;font-weight:800;color:var(--acento);margin-right:8px}
+.cmd{margin:0 0 8px;font-weight:600}
+.exemplo{margin:0 0 10px;padding:8px 12px;background:var(--faixa);border:1px solid var(--borda);border-radius:10px}
+.item{border-top:1px dashed var(--borda);padding:12px 0 6px;scroll-margin-top:140px}
+.item:first-of-type{border-top:0;padding-top:4px}
+.item.achado{background:var(--acento-claro);border-radius:10px;padding-inline:10px}
+.letra{font-weight:800;margin-right:6px}
+details{margin-top:8px}
+summary{cursor:pointer;color:var(--acento);font-weight:700;font-size:.95rem;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--acento);border-radius:999px}
+summary::-webkit-details-marker{display:none}
+details[open] summary{background:var(--acento);color:var(--cartao)}
+.solucao{margin-top:12px;display:grid;gap:12px}
+.passo{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.passo .n{width:28px;height:28px;border-radius:50%;background:var(--acento-claro);color:var(--acento);font-weight:800;display:grid;place-items:center;font-size:.9rem}
+.passo .corpo{min-width:0;display:grid;gap:8px;padding-top:2px}
+.passo p{margin:0}
+.dica{padding:8px 12px;border-radius:10px;background:var(--dica-claro);color:var(--texto);border-left:4px solid var(--dica);font-size:.95rem}
+.dica b{color:var(--dica)}
+.final{padding:10px 14px;border-radius:12px;background:var(--certo-claro);border:1px solid var(--certo);font-size:1.05rem}
+.final b{color:var(--certo)}
+.rolagem{overflow-x:auto}
+table.quadro{border-collapse:collapse;font-size:1rem;text-align:center}
+table.quadro th{font-size:.72rem;font-weight:700;color:var(--suave);padding:3px 8px;border:1px solid var(--borda);background:var(--faixa)}
+table.quadro th.cls{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+table.quadro td{border:1px solid var(--borda);padding:5px 10px;min-width:34px;font-weight:700;font-size:1.1rem}
+table.quadro td.rot{font-weight:600;font-size:.85rem;text-align:left;color:var(--suave);min-width:0}
+table.quadro td.v{font-weight:400;font-size:.78rem;color:var(--suave)}
+table.quadro .sep{border-left:3px solid var(--suave)}
+table.quadro td.hl{background:var(--texto);color:var(--cartao);border-radius:4px}
+table.quadro th.hl{background:var(--acento-claro);color:var(--acento)}
+.legenda{font-size:.78rem;color:var(--suave);margin-top:4px}
+table.conta{border-collapse:collapse;font-size:1.2rem;font-weight:700;margin-left:4px}
+table.conta td{padding:1px 2px;text-align:center;min-width:.7em}
+table.conta td.pt{min-width:0;padding:1px 0}
+table.conta td.op{color:var(--acento);text-align:center;width:26px;padding-right:6px}
+table.conta tr.res td{border-top:2px solid var(--texto);padding-top:3px}
+table.conta tr.res td.op{border-top:0}
+table.conta tr.reserva td{font-size:.75rem;color:var(--erro);font-weight:800;padding-bottom:0}
+.lista{display:flex;flex-wrap:wrap;gap:6px}
+.lista span{padding:3px 10px;border-radius:999px;background:var(--faixa);border:1px solid var(--borda);font-size:.95rem}
+.lista-titulo{font-size:.85rem;color:var(--suave)}
+.regra{background:var(--cartao);border:2px solid var(--texto);border-radius:14px;padding:12px 14px;margin:0 0 18px}
+.regra h2{margin:0 0 6px;font-size:1.05rem;letter-spacing:.03em}
+.regra h3{margin:12px 0 4px;font-size:.9rem;letter-spacing:.04em;color:var(--suave)}
+.regra p{margin:0}.regra table{border-collapse:collapse;width:100%;font-size:.92rem}
+.regra td,.regra th{border:1px solid var(--borda);padding:5px 7px;text-align:left;vertical-align:top}
+.regra th{background:var(--faixa);font-size:.78rem}
+.regra .cuidado{margin-top:10px;padding:8px 12px;border-radius:10px;border-left:4px solid var(--erro)}
+.erros{padding:8px 12px;border-radius:10px;border:1px solid var(--borda);border-left:4px solid var(--erro);font-size:.95rem}
+.erros b{color:var(--erro)}.erros ul{margin:4px 0 0;padding-left:1.1em}.erros li{margin:3px 0}
+.dest{display:inline-block;background:var(--texto);color:var(--cartao);font-weight:800;border-radius:4px;padding:0 4px;line-height:1.3}
+.caixa{display:inline-block;width:1.1em;height:1.1em;border:1.5px solid currentColor;border-radius:3px;vertical-align:-.2em}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .15em;font-size:.95em}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .2em}
+.fr>span:last-child{padding:0 .2em}
+.fr .caixa{width:.9em;height:.9em}
+.escada{border-collapse:collapse;margin:6px 0 6px 1em;font-variant-numeric:tabular-nums}
+.escada td{padding:1px 8px;text-align:right}
+.escada td+td{border-left:2px solid currentColor;text-align:center;min-width:1.6em}
+.escada .circ{display:inline-block;min-width:1.3em;border:1.5px solid currentColor;border-radius:50%}
+svg{max-width:100%;height:auto;display:block;color:var(--texto)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.logo{display:block;height:30px;width:auto;margin:0 0 8px;background:#fff;padding:4px 8px;border-radius:8px}</style></head>
+<body>
+<header>
+<img class="logo" src="https://colecaosuperbase.com.br/4v/logo-superbase.png" alt="SUPERBASE">
+<h1>Capítulo 7 · 7.3 Reforço: Razão e partilha</h1>
+<p>Resolução dos exercícios 1 a 5. Tente resolver antes de olhar!</p>
+<form id="busca"><input id="numero" inputmode="text" autocomplete="off" placeholder="Número do exercício (ex.: 1 ou 1a)" aria-label="Número do exercício"><button>Ir</button></form>
+<div id="aviso" role="status"></div>
+</header>
+<main>
+<section class="regra"><h2>REGRA: REFORÇO: RAZÃO E PARTILHA</h2><h3>O QUE É</h3><p>A <b>razão</b> compara duas quantidades: 12 azuis para 18 vermelhas é a razão 12 para 18, que simplificada é 2 para 3. Para repartir uma quantia numa razão, desenhe caixinhas: cada caixinha vale o mesmo.</p><h3>COMO FAZER</h3><p>Razão 2 para 3: desenhe 2 caixinhas e 3 caixinhas (5 ao todo). Total ÷ número de caixinhas = 1 caixinha. Distribua e confira: as partes somam o total.</p><h3>DIVIDIR R$ 120 NA RAZÃO 2 PARA 3</h3><div class="rolagem"><table><tr><th></th><th>O QUE QUER DIZER</th><th>EXEMPLO</th></tr><tr><td>Caixinhas</td><td>2 + 3</td><td>5</td></tr><tr><td>1 caixinha</td><td>120 ÷ 5</td><td>24</td></tr><tr><td>Distribua</td><td>2 × 24 e 3 × 24</td><td>48 e 72</td></tr><tr><td>Confira</td><td>48 + 72</td><td>120</td></tr></table></div><div class="cuidado"><b>Cuidado!</b> Razão não é divisão em partes iguais: na razão 2 para 3, quem tem 3 partes recebe mais.</div><h3>NÃO CONFUNDA</h3><div class="rolagem"><table><tr><th></th><th>O QUE É</th><th>EXEMPLO</th></tr><tr><td>Razão entre as partes</td><td>48 para 72</td><td>2 para 3</td></tr><tr><td>Parte e todo</td><td>48 de 120</td><td><span class="fr"><span>2</span><span>5</span></span></td></tr></table></div></section><h2 class="nivel">Treino</h2><article id="ex-1"><p class="cmd"><span class="num">1.</span>Escreva a razão pedida, simplificada, no formato “… para …”.</p><p class="exemplo"><b>Exemplo:</b> 12 bolinhas azuis e 18 vermelhas: razão das azuis para as vermelhas → 2 para 3</p><div class="item" id="ex-1a"><div><span class="letra">a)</span>35 bolinhas azuis e 25 vermelhas: razão das azuis para as vermelhas</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Razão = uma quantidade comparada à outra:</b> 35 para 25.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Simplifique</b> dividindo os dois por 5: <b>7 para 5</b>.</p></div></div><div class="final"><b>Resposta:</b> 7 para 5</div></div></details></div><div class="item" id="ex-1b"><div><span class="letra">b)</span>28 bolinhas verdes e 36 amarelas: razão das verdes para as amarelas</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Razão = uma quantidade comparada à outra:</b> 28 para 36.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Simplifique</b> dividindo os dois por 4: <b>7 para 9</b>.</p></div></div><div class="final"><b>Resposta:</b> 7 para 9</div></div></details></div><div class="item" id="ex-1c"><div><span class="letra">c)</span>7 bolinhas azuis e 14 vermelhas: razão das azuis para as vermelhas</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Razão = uma quantidade comparada à outra:</b> 7 para 14.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Simplifique</b> dividindo os dois por 7: <b>1 para 2</b>.</p></div></div><div class="final"><b>Resposta:</b> 1 para 2</div></div></details></div><div class="item" id="ex-1d"><div><span class="letra">d)</span>6 bolinhas de morango e 3 de uva: razão das de morango para as de uva</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Razão = uma quantidade comparada à outra:</b> 6 para 3.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Simplifique</b> dividindo os dois por 3: <b>2 para 1</b>.</p></div></div><div class="final"><b>Resposta:</b> 2 para 1</div></div></details></div></article><article id="ex-2"><p class="cmd"><span class="num">2.</span>Que fração do total é a parte pedida? Responda com a fração irredutível.</p><p class="exemplo"><b>Exemplo:</b> 12 bolinhas azuis e 18 vermelhas: que fração do total são as azuis? → <span class="fr"><span>2</span><span>5</span></span></p><div class="item" id="ex-2a"><div><span class="letra">a)</span>40 bolinhas brancas e 4 pretas: que fração do total são as brancas?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Parte e todo:</b> o todo é 40 + 4 = 44; a parte é 40.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Fração:</b> <span class="fr"><span>40</span><span>44</span></span>; simplificando por 4: <b><span class="fr"><span>10</span><span>11</span></span></b>.</p></div></div><div class="final"><b>Resposta:</b> <span class="fr"><span>10</span><span>11</span></span></div></div></details></div><div class="item" id="ex-2b"><div><span class="letra">b)</span>16 bolinhas azuis e 2 vermelhas: que fração do total são as azuis?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Parte e todo:</b> o todo é 16 + 2 = 18; a parte é 16.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Fração:</b> <span class="fr"><span>16</span><span>18</span></span>; simplificando por 2: <b><span class="fr"><span>8</span><span>9</span></span></b>.</p></div></div><div class="final"><b>Resposta:</b> <span class="fr"><span>8</span><span>9</span></span></div></div></details></div><div class="item" id="ex-2c"><div><span class="letra">c)</span>19 bolinhas verdes e 26 amarelas: que fração do total são as verdes?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Parte e todo:</b> o todo é 19 + 26 = 45; a parte é 19.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Fração:</b> <span class="fr"><span>19</span><span>45</span></span>; simplificando por 1: <b><span class="fr"><span>19</span><span>45</span></span></b>.</p></div></div><div class="final"><b>Resposta:</b> <span class="fr"><span>19</span><span>45</span></span></div></div></details></div><div class="item" id="ex-2d"><div><span class="letra">d)</span>8 bolinhas verdes e 10 amarelas: que fração do total são as verdes?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Parte e todo:</b> o todo é 8 + 10 = 18; a parte é 8.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Fração:</b> <span class="fr"><span>8</span><span>18</span></span>; simplificando por 2: <b><span class="fr"><span>4</span><span>9</span></span></b>.</p></div></div><div class="final"><b>Resposta:</b> <span class="fr"><span>4</span><span>9</span></span></div></div></details></div></article><article id="ex-3"><p class="cmd"><span class="num">3.</span>Resolva pelo método das partes. Responda assim: … e ….</p><p class="exemplo"><b>Exemplo:</b> Ana e Bruno têm juntos 60. Ana tem o dobro do que Bruno tem. → 40 e 20</p><div class="item" id="ex-3a"><div><span class="letra">a)</span>Gabriela e Thiago têm juntos 141. Gabriela tem o dobro do que Thiago tem.</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Partes:</b> Thiago = 1 parte; Gabriela = 2 partes. Total: 3 partes.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>1 parte:</b> 141 ÷ 3 = 47.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Monte:</b> Gabriela = 2 × 47 = 94; Thiago = 47. <b>Confira:</b> 94 + 47 = 141.</p></div></div><div class="final"><b>Resposta:</b> 94 e 47</div></div></details></div><div class="item" id="ex-3b"><div><span class="letra">b)</span>Elisa e Rafaela têm juntos 51. Elisa tem o dobro do que Rafaela tem.</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Partes:</b> Rafaela = 1 parte; Elisa = 2 partes. Total: 3 partes.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>1 parte:</b> 51 ÷ 3 = 17.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Monte:</b> Elisa = 2 × 17 = 34; Rafaela = 17. <b>Confira:</b> 34 + 17 = 51.</p></div></div><div class="final"><b>Resposta:</b> 34 e 17</div></div></details></div><div class="item" id="ex-3c"><div><span class="letra">c)</span>Nicolas e João têm juntos 114. Nicolas tem o dobro do que João tem.</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Partes:</b> João = 1 parte; Nicolas = 2 partes. Total: 3 partes.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>1 parte:</b> 114 ÷ 3 = 38.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Monte:</b> Nicolas = 2 × 38 = 76; João = 38. <b>Confira:</b> 76 + 38 = 114.</p></div></div><div class="final"><b>Resposta:</b> 76 e 38</div></div></details></div><div class="item" id="ex-3d"><div><span class="letra">d)</span>Samuel e Elisa têm juntos 42. Samuel tem o dobro do que Elisa tem.</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Partes:</b> Elisa = 1 parte; Samuel = 2 partes. Total: 3 partes.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>1 parte:</b> 42 ÷ 3 = 14.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Monte:</b> Samuel = 2 × 14 = 28; Elisa = 14. <b>Confira:</b> 28 + 14 = 42.</p></div></div><div class="final"><b>Resposta:</b> 28 e 14</div></div></details></div></article><article id="ex-4"><p class="cmd"><span class="num">4.</span>Resolva pelo método das partes. Responda assim: … e ….</p><p class="exemplo"><b>Exemplo:</b> Ana e Bruno têm juntos 60. Ana tem 10 a mais que Bruno. → 35 e 25</p><div class="item" id="ex-4a"><div><span class="letra">a)</span>Davi e Rafaela têm juntos 171. Davi tem 31 a mais que Rafaela.</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Tire o “a mais” primeiro:</b> 171 − 31 = 140.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Partes:</b> sobram 2 partes iguais: 140 ÷ 2 = 70.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Monte:</b> Rafaela = 70; Davi = 70 + 31 = 101. <b>Confira:</b> 101 + 70 = 171.</p></div></div><div class="final"><b>Resposta:</b> 101 e 70</div></div></details></div><div class="item" id="ex-4b"><div><span class="letra">b)</span>Kátia e Nicolas têm juntos 167. Kátia tem 37 a mais que Nicolas.</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Tire o “a mais” primeiro:</b> 167 − 37 = 130.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Partes:</b> sobram 2 partes iguais: 130 ÷ 2 = 65.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Monte:</b> Nicolas = 65; Kátia = 65 + 37 = 102. <b>Confira:</b> 102 + 65 = 167.</p></div></div><div class="final"><b>Resposta:</b> 102 e 65</div></div></details></div><div class="item" id="ex-4c"><div><span class="letra">c)</span>Felipe e Ana têm juntos 50. Felipe tem 12 a mais que Ana.</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Tire o “a mais” primeiro:</b> 50 − 12 = 38.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Partes:</b> sobram 2 partes iguais: 38 ÷ 2 = 19.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Monte:</b> Ana = 19; Felipe = 19 + 12 = 31. <b>Confira:</b> 31 + 19 = 50.</p></div></div><div class="final"><b>Resposta:</b> 31 e 19</div></div></details></div><div class="item" id="ex-4d"><div><span class="letra">d)</span>Sofia e Isabela têm juntos 96. Sofia tem 44 a mais que Isabela.</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Tire o “a mais” primeiro:</b> 96 − 44 = 52.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Partes:</b> sobram 2 partes iguais: 52 ÷ 2 = 26.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Monte:</b> Isabela = 26; Sofia = 26 + 44 = 70. <b>Confira:</b> 70 + 26 = 96.</p></div></div><div class="final"><b>Resposta:</b> 70 e 26</div></div></details></div></article><article id="ex-5"><p class="cmd"><span class="num">5.</span>Divida na razão pedida pelas caixinhas. Responda com as duas partes, na ordem: … e ….</p><p class="exemplo"><b>Exemplo:</b> Dividir R$ 120 na razão 2 para 3 → R$ 48,00 e R$ 72,00</p><div class="item" id="ex-5a"><div><span class="letra">a)</span>Dividir R$ 3.840 na razão 7 para 1</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Caixinhas:</b> 7 + 1 = 8 caixinhas.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>1 caixinha:</b> 3.840 ÷ 8 = 480.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Distribua:</b> 7 × 480 = 3.360 e 1 × 480 = 480. <b>Confira:</b> 3.360 + 480 = 3.840.</p></div></div><div class="final"><b>Resposta:</b> R$ 3.360,00 e R$ 480,00</div></div></details></div><div class="item" id="ex-5b"><div><span class="letra">b)</span>Dividir R$ 754 na razão 6 para 7</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Caixinhas:</b> 6 + 7 = 13 caixinhas.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>1 caixinha:</b> 754 ÷ 13 = 58.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Distribua:</b> 6 × 58 = 348 e 7 × 58 = 406. <b>Confira:</b> 348 + 406 = 754.</p></div></div><div class="final"><b>Resposta:</b> R$ 348,00 e R$ 406,00</div></div></details></div><div class="item" id="ex-5c"><div><span class="letra">c)</span>Dividir R$ 900 na razão 3 para 2</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Caixinhas:</b> 3 + 2 = 5 caixinhas.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>1 caixinha:</b> 900 ÷ 5 = 180.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Distribua:</b> 3 × 180 = 540 e 2 × 180 = 360. <b>Confira:</b> 540 + 360 = 900.</p></div></div><div class="final"><b>Resposta:</b> R$ 540,00 e R$ 360,00</div></div></details></div><div class="item" id="ex-5d"><div><span class="letra">d)</span>Dividir R$ 95 na razão 2 para 3</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Caixinhas:</b> 2 + 3 = 5 caixinhas.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>1 caixinha:</b> 95 ÷ 5 = 19.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Distribua:</b> 2 × 19 = 38 e 3 × 19 = 57. <b>Confira:</b> 38 + 57 = 95.</p></div></div><div class="final"><b>Resposta:</b> R$ 38,00 e R$ 57,00</div></div></details></div></article>
+</main>
+<script>
+const form=document.getElementById('busca'),campo=document.getElementById('numero'),aviso=document.getElementById('aviso');
+function achar(v){
+  v=(v||'').toLowerCase().replace(/[.\s]/g,'');
+  if(!v)return false;
+  let alvo=document.getElementById('ex-'+v);
+  if(!alvo){const m=v.match(/^(\d+)/);if(m)alvo=document.getElementById('ex-'+m[1]);}
+  if(!alvo)return false;
+  document.querySelectorAll('.achado').forEach(e=>e.classList.remove('achado'));
+  alvo.classList.add('achado');
+  alvo.querySelectorAll('details').forEach(d=>d.open=true);
+  alvo.scrollIntoView({block:'start'});
+  return true;
+}
+form.addEventListener('submit',e=>{e.preventDefault();
+  aviso.textContent=achar(campo.value)?'':'Não achei esse número nesta seção. Confira o número no livro.';
+  if(!aviso.textContent)history.replaceState(null,'','#'+campo.value.replace(/[.\s]/g,''));});
+if(location.hash)achar(location.hash.slice(1));
+</script>
+</body></html>

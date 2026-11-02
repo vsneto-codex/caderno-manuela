@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3.7 Reforço: Problemas · Passo a passo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{--fundo:#f6f7f9;--texto:#1d2330;--suave:#5f6878;--borda:#dfe3ea;--cartao:#fff;
+ --faixa:#eef1f5;--acento:#2b62b8;--acento-claro:#e6eefb;--certo:#1f7a4a;--certo-claro:#e5f4ec;
+ --dica:#8a5a00;--dica-claro:#fff6e0;--erro:#b3261e;
+ --letra:"Nunito","Segoe UI",system-ui,sans-serif;--numero:"Nunito","Segoe UI",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fundo:#14171c;--texto:#e8ebf0;
+ --suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;--faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;
+ --certo:#7fd3a4;--certo-claro:#173326;--dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}}
+:root[data-theme="dark"]{--fundo:#14171c;--texto:#e8ebf0;--suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;
+ --faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;--certo:#7fd3a4;--certo-claro:#173326;
+ --dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--texto);font:17px/1.55 var(--letra);font-variant-numeric:tabular-nums}
+header{position:sticky;top:0;background:var(--fundo);border-bottom:1px solid var(--borda);padding:12px 16px;z-index:2}
+header h1{font-size:1.15rem;margin:0 0 2px}
+header p{margin:0 0 8px;color:var(--suave);font-size:.9rem}
+form{display:flex;gap:8px;max-width:440px}
+input{flex:1;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--borda);border-radius:10px;background:var(--cartao);color:var(--texto)}
+input:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+button{font:inherit;font-weight:700;padding:8px 16px;border:0;border-radius:10px;background:var(--acento);color:var(--cartao);cursor:pointer}
+#aviso{color:var(--erro);font-size:.9rem;margin-top:4px;min-height:1.2em}
+main{max-width:780px;margin:0 auto;padding:12px 16px 80px}
+h2.nivel{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--suave);margin:32px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--borda)}
+article{background:var(--cartao);border:1px solid var(--borda);border-radius:14px;padding:16px 18px;margin:14px 0;scroll-margin-top:140px}
+article.achado{outline:3px solid var(--acento)}
+.num{display:inline-block;font-weight:800;color:var(--acento);margin-right:8px}
+.cmd{margin:0 0 8px;font-weight:600}
+.exemplo{margin:0 0 10px;padding:8px 12px;background:var(--faixa);border:1px solid var(--borda);border-radius:10px}
+.item{border-top:1px dashed var(--borda);padding:12px 0 6px;scroll-margin-top:140px}
+.item:first-of-type{border-top:0;padding-top:4px}
+.item.achado{background:var(--acento-claro);border-radius:10px;padding-inline:10px}
+.letra{font-weight:800;margin-right:6px}
+details{margin-top:8px}
+summary{cursor:pointer;color:var(--acento);font-weight:700;font-size:.95rem;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--acento);border-radius:999px}
+summary::-webkit-details-marker{display:none}
+details[open] summary{background:var(--acento);color:var(--cartao)}
+.solucao{margin-top:12px;display:grid;gap:12px}
+.passo{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.passo .n{width:28px;height:28px;border-radius:50%;background:var(--acento-claro);color:var(--acento);font-weight:800;display:grid;place-items:center;font-size:.9rem}
+.passo .corpo{min-width:0;display:grid;gap:8px;padding-top:2px}
+.passo p{margin:0}
+.dica{padding:8px 12px;border-radius:10px;background:var(--dica-claro);color:var(--texto);border-left:4px solid var(--dica);font-size:.95rem}
+.dica b{color:var(--dica)}
+.final{padding:10px 14px;border-radius:12px;background:var(--certo-claro);border:1px solid var(--certo);font-size:1.05rem}
+.final b{color:var(--certo)}
+.rolagem{overflow-x:auto}
+table.quadro{border-collapse:collapse;font-size:1rem;text-align:center}
+table.quadro th{font-size:.72rem;font-weight:700;color:var(--suave);padding:3px 8px;border:1px solid var(--borda);background:var(--faixa)}
+table.quadro th.cls{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+table.quadro td{border:1px solid var(--borda);padding:5px 10px;min-width:34px;font-weight:700;font-size:1.1rem}
+table.quadro td.rot{font-weight:600;font-size:.85rem;text-align:left;color:var(--suave);min-width:0}
+table.quadro td.v{font-weight:400;font-size:.78rem;color:var(--suave)}
+table.quadro .sep{border-left:3px solid var(--suave)}
+table.quadro td.hl{background:var(--texto);color:var(--cartao);border-radius:4px}
+table.quadro th.hl{background:var(--acento-claro);color:var(--acento)}
+.legenda{font-size:.78rem;color:var(--suave);margin-top:4px}
+table.conta{border-collapse:collapse;font-size:1.2rem;font-weight:700;margin-left:4px}
+table.conta td{padding:1px 2px;text-align:center;min-width:.7em}
+table.conta td.pt{min-width:0;padding:1px 0}
+table.conta td.op{color:var(--acento);text-align:center;width:26px;padding-right:6px}
+table.conta tr.res td{border-top:2px solid var(--texto);padding-top:3px}
+table.conta tr.res td.op{border-top:0}
+table.conta tr.reserva td{font-size:.75rem;color:var(--erro);font-weight:800;padding-bottom:0}
+.lista{display:flex;flex-wrap:wrap;gap:6px}
+.lista span{padding:3px 10px;border-radius:999px;background:var(--faixa);border:1px solid var(--borda);font-size:.95rem}
+.lista-titulo{font-size:.85rem;color:var(--suave)}
+.regra{background:var(--cartao);border:2px solid var(--texto);border-radius:14px;padding:12px 14px;margin:0 0 18px}
+.regra h2{margin:0 0 6px;font-size:1.05rem;letter-spacing:.03em}
+.regra h3{margin:12px 0 4px;font-size:.9rem;letter-spacing:.04em;color:var(--suave)}
+.regra p{margin:0}.regra table{border-collapse:collapse;width:100%;font-size:.92rem}
+.regra td,.regra th{border:1px solid var(--borda);padding:5px 7px;text-align:left;vertical-align:top}
+.regra th{background:var(--faixa);font-size:.78rem}
+.regra .cuidado{margin-top:10px;padding:8px 12px;border-radius:10px;border-left:4px solid var(--erro)}
+.erros{padding:8px 12px;border-radius:10px;border:1px solid var(--borda);border-left:4px solid var(--erro);font-size:.95rem}
+.erros b{color:var(--erro)}.erros ul{margin:4px 0 0;padding-left:1.1em}.erros li{margin:3px 0}
+.dest{display:inline-block;background:var(--texto);color:var(--cartao);font-weight:800;border-radius:4px;padding:0 4px;line-height:1.3}
+.caixa{display:inline-block;width:1.1em;height:1.1em;border:1.5px solid currentColor;border-radius:3px;vertical-align:-.2em}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .15em;font-size:.95em}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .2em}
+.fr>span:last-child{padding:0 .2em}
+.fr .caixa{width:.9em;height:.9em}
+.escada{border-collapse:collapse;margin:6px 0 6px 1em;font-variant-numeric:tabular-nums}
+.escada td{padding:1px 8px;text-align:right}
+.escada td+td{border-left:2px solid currentColor;text-align:center;min-width:1.6em}
+.escada .circ{display:inline-block;min-width:1.3em;border:1.5px solid currentColor;border-radius:50%}
+svg{max-width:100%;height:auto;display:block;color:var(--texto)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.logo{display:block;height:30px;width:auto;margin:0 0 8px;background:#fff;padding:4px 8px;border-radius:8px}</style></head>
+<body>
+<header>
+<img class="logo" src="https://colecaosuperbase.com.br/4v/logo-superbase.png" alt="SUPERBASE">
+<h1>Capítulo 3 · 3.7 Reforço: Problemas</h1>
+<p>Resolução dos exercícios 1 a 3. Tente resolver antes de olhar!</p>
+<form id="busca"><input id="numero" inputmode="text" autocomplete="off" placeholder="Número do exercício (ex.: 1 ou 1a)" aria-label="Número do exercício"><button>Ir</button></form>
+<div id="aviso" role="status"></div>
+</header>
+<main>
+<section class="regra"><h2>REGRA: REFORÇO: PROBLEMAS</h2><h3>O QUE É</h3><p>Antes de calcular, descubra se o problema é de <b>MMC</b> ou de <b>MDC</b>. Problemas de encontro, de coisas que se repetem e “juntas de novo” são de MMC. Problemas de repartir em partes iguais, as maiores possíveis, são de MDC.</p><h3>COMO FAZER</h3><p>1) Leia e pergunte: a resposta vai ser maior que os números (encontro, MMC) ou menor (repartir, MDC)? 2) Calcule. 3) Responda o que foi perguntado: às vezes, depois do MMC ou do MDC, ainda falta uma conta (quantos pedaços, que horas, que dia da semana).</p><h3>PISTAS NO TEXTO</h3><div class="rolagem"><table><tr><th></th><th>O QUE QUER DIZER</th><th>EXEMPLO</th></tr><tr><td>“de novo”, “juntos outra vez”</td><td>MMC</td><td>ônibus a cada 12 e 18 min → 36 min</td></tr><tr><td>“menor quantidade que dá para repartir”</td><td>MMC</td><td>balas para 6 ou 8 crianças → 24</td></tr><tr><td>“o maior possível”, “sem sobrar”</td><td>MDC</td><td>fitas de 48 e 60 cm → pedaços de 12 cm</td></tr><tr><td>“o maior número de grupos iguais”</td><td>MDC</td><td>24 balas e 36 pirulitos → 12 kits</td></tr></table></div><div class="cuidado"><b>Cuidado!</b> O MMC ou o MDC nem sempre é a resposta final. Se o problema pergunta “quantos pedaços”, divida cada comprimento pelo tamanho do pedaço e some.</div><h3>NÃO CONFUNDA</h3><div class="rolagem"><table><tr><th></th><th>O QUE É</th><th>EXEMPLO</th></tr><tr><td>MMC</td><td>encontros e repetições: resposta maior</td><td>a cada 4 e 6 dias → 12 dias</td></tr><tr><td>MDC</td><td>repartir no maior tamanho: resposta menor</td><td>48 e 60 → 12</td></tr></table></div></section><h2 class="nivel">Treino</h2><article id="ex-1"><p class="cmd"><span class="num">1.</span>Não precisa resolver. O problema pede o MMC ou o MDC? Responda “MMC” ou “MDC”.</p><p class="exemplo"><b>Exemplo:</b> Fitas de 48 cm e 60 cm em pedaços iguais, os maiores possíveis → MDC</p><div class="item" id="ex-1a"><div><span class="letra">a)</span>Duas luzes piscam a cada 5 e a cada 11 segundos. Agora piscaram juntas. Quando piscam juntas de novo?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Pistas de MMC: “de novo”, “juntos outra vez”, “ao mesmo tempo”, “menor quantidade que dá para repartir”. A resposta é um número maior (ou igual) que os dados.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Resposta: <b>MMC</b>.</p></div></div><div class="final"><b>Resposta:</b> MMC</div></div></details></div><div class="item" id="ex-1b"><div><span class="letra">b)</span>Qual é o menor quadrado que se monta com azulejos de 7 cm por 11 cm?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Pistas de MMC: “de novo”, “juntos outra vez”, “ao mesmo tempo”, “menor quantidade que dá para repartir”. A resposta é um número maior (ou igual) que os dados.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Resposta: <b>MMC</b>.</p></div></div><div class="final"><b>Resposta:</b> MMC</div></div></details></div><div class="item" id="ex-1c"><div><span class="letra">c)</span>54 meninos e 63 meninas em equipes iguais, só de meninos ou só de meninas, as maiores possíveis. Quantos alunos por equipe?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Pistas de MDC: “repartir em partes iguais, as maiores possíveis”, “o maior número de grupos”, “sem sobrar”. A resposta é um número menor (ou igual) que os dados.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Resposta: <b>MDC</b>.</p></div></div><div class="final"><b>Resposta:</b> MDC</div></div></details></div><div class="item" id="ex-1d"><div><span class="letra">d)</span>Ana visita a avó a cada 7 dias, e Leo, a cada 8 dias. Hoje foram juntos. Quando vão juntos de novo?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Pistas de MMC: “de novo”, “juntos outra vez”, “ao mesmo tempo”, “menor quantidade que dá para repartir”. A resposta é um número maior (ou igual) que os dados.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Resposta: <b>MMC</b>.</p></div></div><div class="final"><b>Resposta:</b> MMC</div></div></details></div></article><article id="ex-2"><p class="cmd"><span class="num">2.</span>Use a pergunta-chave para escolher a conta, depois faça a escada. Responda com a conta e o resultado, assim: MMC(4, 6) = 12 dias.</p><p class="exemplo"><b>Exemplo:</b> Um farol pisca a cada 21 segundos, e outro, a cada 24. Piscaram juntos. Depois de quantos segundos piscam juntos de novo? → MMC(21, 24) = 168 segundos</p><div class="item" id="ex-2a"><div><span class="letra">a)</span>Um piso de 18 cm por 22 cm vai ser coberto com ladrilhos quadrados iguais, os maiores possíveis, sem cortar nenhum. Quanto mede o lado de cada ladrilho?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Pergunta-chave:</b> “Repartir em partes iguais, o maior possível, sem sobrar”: MDC.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>A escada da 3.5:</b> <table class="escada"><tr><td>18, 22</td><td><span class=circ>2</span></td></tr><tr><td>9, 11</td><td>3</td></tr><tr><td>3, 11</td><td>3</td></tr><tr><td>1, 11</td><td>11</td></tr><tr><td>1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Circule</b> o primo da linha em que ele dividiu todos os números: 2.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p><b>MDC = só os circulados:</b> <b>2</b>.</p></div></div><div class="final"><b>Resposta:</b> MDC(18, 22) = 2 cm</div></div></details></div><div class="item" id="ex-2b"><div><span class="letra">b)</span>Pedro rega uma planta a cada 10 dias e aduba a cada 16 dias. Fez as duas coisas hoje. Daqui a quantos dias faz as duas no mesmo dia de novo?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Pergunta-chave:</b> “Juntos de novo” ou “a menor quantidade que serve para os dois”: MMC.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Divida pelo menor primo que divide pelo menos um</b> (quem não divide desce igual), até tudo virar 1: <table class="escada"><tr><td>10, 16</td><td>2</td></tr><tr><td>5, 8</td><td>2</td></tr><tr><td>5, 4</td><td>2</td></tr><tr><td>5, 2</td><td>2</td></tr><tr><td>5, 1</td><td>5</td></tr><tr><td>1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MMC = todos os primos da direita:</b> 2 × 2 × 2 × 2 × 5 = <b>80</b>.</p></div></div><div class="final"><b>Resposta:</b> MMC(10, 16) = 80 dias</div></div></details></div><div class="item" id="ex-2c"><div><span class="letra">c)</span>Pacotes de figurinhas vêm com 49 ou com 56. Qual é a menor quantidade, maior que zero, que dá para montar tanto com pacotes de 49 quanto com pacotes de 56, sem abrir pacote?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Pergunta-chave:</b> “Juntos de novo” ou “a menor quantidade que serve para os dois”: MMC.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>Divida pelo menor primo que divide pelo menos um</b> (quem não divide desce igual), até tudo virar 1: <table class="escada"><tr><td>49, 56</td><td>2</td></tr><tr><td>49, 28</td><td>2</td></tr><tr><td>49, 14</td><td>2</td></tr><tr><td>49, 7</td><td>7</td></tr><tr><td>7, 1</td><td>7</td></tr><tr><td>1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MMC = todos os primos da direita:</b> 2 × 2 × 2 × 7 × 7 = <b>392</b>.</p></div></div><div class="final"><b>Resposta:</b> MMC(49, 56) = 392 figurinhas</div></div></details></div><div class="item" id="ex-2d"><div><span class="letra">d)</span>28 lápis e 49 borrachas vão ser repartidos em kits iguais, o maior número de kits possível, sem sobrar nada. Quantos kits?</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>Pergunta-chave:</b> “Repartir em partes iguais, o maior possível, sem sobrar”: MDC.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>A escada da 3.5:</b> <table class="escada"><tr><td>28, 49</td><td>2</td></tr><tr><td>14, 49</td><td>2</td></tr><tr><td>7, 49</td><td><span class=circ>7</span></td></tr><tr><td>1, 7</td><td>7</td></tr><tr><td>1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>Circule</b> o primo da linha em que ele dividiu todos os números: 7.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p><b>MDC = só os circulados:</b> <b>7</b>.</p></div></div><div class="final"><b>Resposta:</b> MDC(28, 49) = 7 kits</div></div></details></div></article><article id="ex-3"><p class="cmd"><span class="num">3.</span>Faça uma escada só e responda as duas coisas, assim: MMC = 36; MDC = 6.</p><p class="exemplo"><b>Exemplo:</b> 18 e 20 → MMC = 180; MDC = 2</p><div class="item" id="ex-3a"><div><span class="letra">a)</span>10 e 15</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>A escada:</b> <table class="escada"><tr><td>10, 15</td><td>2</td></tr><tr><td>5, 15</td><td>3</td></tr><tr><td>5, 5</td><td><span class=circ>5</span></td></tr><tr><td>1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>MMC = todos os primos da direita:</b> 2 × 3 × 5 = 30.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MDC = só os circulados:</b> 5.</p></div></div><div class="final"><b>Resposta:</b> MMC = 30; MDC = 5</div></div></details></div><div class="item" id="ex-3b"><div><span class="letra">b)</span>22 e 26</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>A escada:</b> <table class="escada"><tr><td>22, 26</td><td><span class=circ>2</span></td></tr><tr><td>11, 13</td><td>11</td></tr><tr><td>1, 13</td><td>13</td></tr><tr><td>1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>MMC = todos os primos da direita:</b> 2 × 11 × 13 = 286.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MDC = só os circulados:</b> 2.</p></div></div><div class="final"><b>Resposta:</b> MMC = 286; MDC = 2</div></div></details></div><div class="item" id="ex-3c"><div><span class="letra">c)</span>24 e 40</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>A escada:</b> <table class="escada"><tr><td>24, 40</td><td><span class=circ>2</span></td></tr><tr><td>12, 20</td><td><span class=circ>2</span></td></tr><tr><td>6, 10</td><td><span class=circ>2</span></td></tr><tr><td>3, 5</td><td>3</td></tr><tr><td>1, 5</td><td>5</td></tr><tr><td>1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>MMC = todos os primos da direita:</b> 2 × 2 × 2 × 3 × 5 = 120.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MDC = só os circulados:</b> 8.</p></div></div><div class="final"><b>Resposta:</b> MMC = 120; MDC = 8</div></div></details></div><div class="item" id="ex-3d"><div><span class="letra">d)</span>16 e 38</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p><b>A escada:</b> <table class="escada"><tr><td>16, 38</td><td><span class=circ>2</span></td></tr><tr><td>8, 19</td><td>2</td></tr><tr><td>4, 19</td><td>2</td></tr><tr><td>2, 19</td><td>2</td></tr><tr><td>1, 19</td><td>19</td></tr><tr><td>1, 1</td><td></td></tr></table></p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p><b>MMC = todos os primos da direita:</b> 2 × 2 × 2 × 2 × 19 = 304.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p><b>MDC = só os circulados:</b> 2.</p></div></div><div class="final"><b>Resposta:</b> MMC = 304; MDC = 2</div></div></details></div></article>
+</main>
+<script>
+const form=document.getElementById('busca'),campo=document.getElementById('numero'),aviso=document.getElementById('aviso');
+function achar(v){
+  v=(v||'').toLowerCase().replace(/[.\s]/g,'');
+  if(!v)return false;
+  let alvo=document.getElementById('ex-'+v);
+  if(!alvo){const m=v.match(/^(\d+)/);if(m)alvo=document.getElementById('ex-'+m[1]);}
+  if(!alvo)return false;
+  document.querySelectorAll('.achado').forEach(e=>e.classList.remove('achado'));
+  alvo.classList.add('achado');
+  alvo.querySelectorAll('details').forEach(d=>d.open=true);
+  alvo.scrollIntoView({block:'start'});
+  return true;
+}
+form.addEventListener('submit',e=>{e.preventDefault();
+  aviso.textContent=achar(campo.value)?'':'Não achei esse número nesta seção. Confira o número no livro.';
+  if(!aviso.textContent)history.replaceState(null,'','#'+campo.value.replace(/[.\s]/g,''));});
+if(location.hash)achar(location.hash.slice(1));
+</script>
+</body></html>

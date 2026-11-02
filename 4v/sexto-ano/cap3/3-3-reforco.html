@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3.3 Reforço: Números primos · Passo a passo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+:root{--fundo:#f6f7f9;--texto:#1d2330;--suave:#5f6878;--borda:#dfe3ea;--cartao:#fff;
+ --faixa:#eef1f5;--acento:#2b62b8;--acento-claro:#e6eefb;--certo:#1f7a4a;--certo-claro:#e5f4ec;
+ --dica:#8a5a00;--dica-claro:#fff6e0;--erro:#b3261e;
+ --letra:"Nunito","Segoe UI",system-ui,sans-serif;--numero:"Nunito","Segoe UI",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--fundo:#14171c;--texto:#e8ebf0;
+ --suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;--faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;
+ --certo:#7fd3a4;--certo-claro:#173326;--dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}}
+:root[data-theme="dark"]{--fundo:#14171c;--texto:#e8ebf0;--suave:#a3acba;--borda:#2e3440;--cartao:#1c2027;
+ --faixa:#252a33;--acento:#86aef0;--acento-claro:#1f2c44;--certo:#7fd3a4;--certo-claro:#173326;
+ --dica:#f0c36a;--dica-claro:#3a2f15;--erro:#ff8a80;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--texto);font:17px/1.55 var(--letra);font-variant-numeric:tabular-nums}
+header{position:sticky;top:0;background:var(--fundo);border-bottom:1px solid var(--borda);padding:12px 16px;z-index:2}
+header h1{font-size:1.15rem;margin:0 0 2px}
+header p{margin:0 0 8px;color:var(--suave);font-size:.9rem}
+form{display:flex;gap:8px;max-width:440px}
+input{flex:1;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--borda);border-radius:10px;background:var(--cartao);color:var(--texto)}
+input:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+button{font:inherit;font-weight:700;padding:8px 16px;border:0;border-radius:10px;background:var(--acento);color:var(--cartao);cursor:pointer}
+#aviso{color:var(--erro);font-size:.9rem;margin-top:4px;min-height:1.2em}
+main{max-width:780px;margin:0 auto;padding:12px 16px 80px}
+h2.nivel{font-size:.85rem;text-transform:uppercase;letter-spacing:.08em;color:var(--suave);margin:32px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--borda)}
+article{background:var(--cartao);border:1px solid var(--borda);border-radius:14px;padding:16px 18px;margin:14px 0;scroll-margin-top:140px}
+article.achado{outline:3px solid var(--acento)}
+.num{display:inline-block;font-weight:800;color:var(--acento);margin-right:8px}
+.cmd{margin:0 0 8px;font-weight:600}
+.exemplo{margin:0 0 10px;padding:8px 12px;background:var(--faixa);border:1px solid var(--borda);border-radius:10px}
+.item{border-top:1px dashed var(--borda);padding:12px 0 6px;scroll-margin-top:140px}
+.item:first-of-type{border-top:0;padding-top:4px}
+.item.achado{background:var(--acento-claro);border-radius:10px;padding-inline:10px}
+.letra{font-weight:800;margin-right:6px}
+details{margin-top:8px}
+summary{cursor:pointer;color:var(--acento);font-weight:700;font-size:.95rem;list-style:none;display:inline-block;padding:4px 12px;border:1px solid var(--acento);border-radius:999px}
+summary::-webkit-details-marker{display:none}
+details[open] summary{background:var(--acento);color:var(--cartao)}
+.solucao{margin-top:12px;display:grid;gap:12px}
+.passo{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.passo .n{width:28px;height:28px;border-radius:50%;background:var(--acento-claro);color:var(--acento);font-weight:800;display:grid;place-items:center;font-size:.9rem}
+.passo .corpo{min-width:0;display:grid;gap:8px;padding-top:2px}
+.passo p{margin:0}
+.dica{padding:8px 12px;border-radius:10px;background:var(--dica-claro);color:var(--texto);border-left:4px solid var(--dica);font-size:.95rem}
+.dica b{color:var(--dica)}
+.final{padding:10px 14px;border-radius:12px;background:var(--certo-claro);border:1px solid var(--certo);font-size:1.05rem}
+.final b{color:var(--certo)}
+.rolagem{overflow-x:auto}
+table.quadro{border-collapse:collapse;font-size:1rem;text-align:center}
+table.quadro th{font-size:.72rem;font-weight:700;color:var(--suave);padding:3px 8px;border:1px solid var(--borda);background:var(--faixa)}
+table.quadro th.cls{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+table.quadro td{border:1px solid var(--borda);padding:5px 10px;min-width:34px;font-weight:700;font-size:1.1rem}
+table.quadro td.rot{font-weight:600;font-size:.85rem;text-align:left;color:var(--suave);min-width:0}
+table.quadro td.v{font-weight:400;font-size:.78rem;color:var(--suave)}
+table.quadro .sep{border-left:3px solid var(--suave)}
+table.quadro td.hl{background:var(--texto);color:var(--cartao);border-radius:4px}
+table.quadro th.hl{background:var(--acento-claro);color:var(--acento)}
+.legenda{font-size:.78rem;color:var(--suave);margin-top:4px}
+table.conta{border-collapse:collapse;font-size:1.2rem;font-weight:700;margin-left:4px}
+table.conta td{padding:1px 2px;text-align:center;min-width:.7em}
+table.conta td.pt{min-width:0;padding:1px 0}
+table.conta td.op{color:var(--acento);text-align:center;width:26px;padding-right:6px}
+table.conta tr.res td{border-top:2px solid var(--texto);padding-top:3px}
+table.conta tr.res td.op{border-top:0}
+table.conta tr.reserva td{font-size:.75rem;color:var(--erro);font-weight:800;padding-bottom:0}
+.lista{display:flex;flex-wrap:wrap;gap:6px}
+.lista span{padding:3px 10px;border-radius:999px;background:var(--faixa);border:1px solid var(--borda);font-size:.95rem}
+.lista-titulo{font-size:.85rem;color:var(--suave)}
+.regra{background:var(--cartao);border:2px solid var(--texto);border-radius:14px;padding:12px 14px;margin:0 0 18px}
+.regra h2{margin:0 0 6px;font-size:1.05rem;letter-spacing:.03em}
+.regra h3{margin:12px 0 4px;font-size:.9rem;letter-spacing:.04em;color:var(--suave)}
+.regra p{margin:0}.regra table{border-collapse:collapse;width:100%;font-size:.92rem}
+.regra td,.regra th{border:1px solid var(--borda);padding:5px 7px;text-align:left;vertical-align:top}
+.regra th{background:var(--faixa);font-size:.78rem}
+.regra .cuidado{margin-top:10px;padding:8px 12px;border-radius:10px;border-left:4px solid var(--erro)}
+.erros{padding:8px 12px;border-radius:10px;border:1px solid var(--borda);border-left:4px solid var(--erro);font-size:.95rem}
+.erros b{color:var(--erro)}.erros ul{margin:4px 0 0;padding-left:1.1em}.erros li{margin:3px 0}
+.dest{display:inline-block;background:var(--texto);color:var(--cartao);font-weight:800;border-radius:4px;padding:0 4px;line-height:1.3}
+.caixa{display:inline-block;width:1.1em;height:1.1em;border:1.5px solid currentColor;border-radius:3px;vertical-align:-.2em}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .15em;font-size:.95em}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .2em}
+.fr>span:last-child{padding:0 .2em}
+.fr .caixa{width:.9em;height:.9em}
+.escada{border-collapse:collapse;margin:6px 0 6px 1em;font-variant-numeric:tabular-nums}
+.escada td{padding:1px 8px;text-align:right}
+.escada td+td{border-left:2px solid currentColor;text-align:center;min-width:1.6em}
+.escada .circ{display:inline-block;min-width:1.3em;border:1.5px solid currentColor;border-radius:50%}
+svg{max-width:100%;height:auto;display:block;color:var(--texto)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.logo{display:block;height:30px;width:auto;margin:0 0 8px;background:#fff;padding:4px 8px;border-radius:8px}</style></head>
+<body>
+<header>
+<img class="logo" src="https://colecaosuperbase.com.br/4v/logo-superbase.png" alt="SUPERBASE">
+<h1>Capítulo 3 · 3.3 Reforço: Números primos</h1>
+<p>Resolução dos exercícios 1 a 4. Tente resolver antes de olhar!</p>
+<form id="busca"><input id="numero" inputmode="text" autocomplete="off" placeholder="Número do exercício (ex.: 1 ou 1a)" aria-label="Número do exercício"><button>Ir</button></form>
+<div id="aviso" role="status"></div>
+</header>
+<main>
+<section class="regra"><h2>REGRA: REFORÇO: NÚMEROS PRIMOS</h2><h3>O QUE É</h3><p>Um número <b>primo</b> tem exatamente dois divisores: o 1 e ele mesmo (2, 3, 5, 7, 11, 13…). Um número <b>composto</b> tem mais de dois divisores. O 1 não é primo nem composto: ele só tem um divisor.</p><h3>COMO FAZER</h3><p>Para saber se um número é primo, divida pelos primos 2, 3, 5, 7, 11… em ordem. Se alguma divisão for exata, é composto. Pare quando o primo vezes ele mesmo passar do número: aí ele é primo. O crivo de Eratóstenes acha todos os primos de uma vez: risque os múltiplos de 2, de 3, de 5, de 7…; quem sobrar é primo.</p><h3>OS PRIMOS ATÉ 50</h3><div class="rolagem"><table><tr><th></th><th>O QUE QUER DIZER</th><th>EXEMPLO</th></tr><tr><td>De 1 a 10</td><td>2, 3, 5 e 7</td><td>4 primos</td></tr><tr><td>De 11 a 30</td><td>11, 13, 17, 19, 23 e 29</td><td>6 primos</td></tr><tr><td>De 31 a 50</td><td>31, 37, 41, 43 e 47</td><td>5 primos</td></tr><tr><td>O único primo par</td><td>2</td><td>todo outro par tem o 2 como divisor</td></tr></table></div><div class="cuidado"><b>Cuidado!</b> Ímpar não quer dizer primo. 51 = 3 × 17, 91 = 7 × 13 e 57 = 3 × 19 parecem primos, mas são compostos. Sempre teste.</div><h3>NÃO CONFUNDA</h3><div class="rolagem"><table><tr><th></th><th>O QUE É</th><th>EXEMPLO</th></tr><tr><td>Primo</td><td>exatamente 2 divisores</td><td>13: só 1 e 13</td></tr><tr><td>Composto</td><td>mais de 2 divisores</td><td>15: 1, 3, 5 e 15</td></tr></table></div></section><h2 class="nivel">Treino</h2><article id="ex-1"><p class="cmd"><span class="num">1.</span>Para descobrir se o número é primo, até qual número primo basta testar as divisões? (Pare quando o primo vezes ele mesmo passar do número.)</p><p class="exemplo"><b>Exemplo:</b> 97 → 7 (11 × 11 = 121 já passa de 97)</p><div class="item" id="ex-1a"><div><span class="letra">a)</span>270</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>13 × 13 = 169, que ainda não passa de 270: o 13 precisa ser testado.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>O próximo primo é 17, e 17 × 17 = 289 já passa de 270.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>Se 270 tivesse um divisor maior que 13, o outro fator da multiplicação seria menor e já teria aparecido. Basta testar até o <b>13</b>.</p></div></div><div class="final"><b>Resposta:</b> 13</div></div></details></div><div class="item" id="ex-1b"><div><span class="letra">b)</span>215</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>13 × 13 = 169, que ainda não passa de 215: o 13 precisa ser testado.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>O próximo primo é 17, e 17 × 17 = 289 já passa de 215.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>Se 215 tivesse um divisor maior que 13, o outro fator da multiplicação seria menor e já teria aparecido. Basta testar até o <b>13</b>.</p></div></div><div class="final"><b>Resposta:</b> 13</div></div></details></div><div class="item" id="ex-1c"><div><span class="letra">c)</span>828</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>23 × 23 = 529, que ainda não passa de 828: o 23 precisa ser testado.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>O próximo primo é 29, e 29 × 29 = 841 já passa de 828.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>Se 828 tivesse um divisor maior que 23, o outro fator da multiplicação seria menor e já teria aparecido. Basta testar até o <b>23</b>.</p></div></div><div class="final"><b>Resposta:</b> 23</div></div></details></div><div class="item" id="ex-1d"><div><span class="letra">d)</span>48</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>5 × 5 = 25, que ainda não passa de 48: o 5 precisa ser testado.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>O próximo primo é 7, e 7 × 7 = 49 já passa de 48.</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>Se 48 tivesse um divisor maior que 5, o outro fator da multiplicação seria menor e já teria aparecido. Basta testar até o <b>5</b>.</p></div></div><div class="final"><b>Resposta:</b> 5</div></div></details></div></article><article id="ex-2"><p class="cmd"><span class="num">2.</span>O número é primo ou composto? Se for composto, escreva também uma multiplicação que dá ele (assim: composto, 3 × 17).</p><p class="exemplo"><b>Exemplo:</b> 51 → composto, 3 × 17 (5 + 1 = 6, divisível por 3)</p><div class="item" id="ex-2a"><div><span class="letra">a)</span>119</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Teste a divisão pelos primos 2, 3, 5, 7, 11… em ordem: ÷ 2: não é exata; ÷ 3: não é exata; ÷ 5: não é exata; ÷ 7: dá 17, exato!.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>119 = 7 × 17: tem outros divisores além do 1 e dele mesmo. É <b>composto</b>.</p></div></div><div class="final"><b>Resposta:</b> composto, 7 × 17</div></div></details></div><div class="item" id="ex-2b"><div><span class="letra">b)</span>135</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Teste a divisão pelos primos 2, 3, 5, 7, 11… em ordem: ÷ 2: não é exata; ÷ 3: dá 45, exato!.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>135 = 3 × 45: tem outros divisores além do 1 e dele mesmo. É <b>composto</b>.</p></div></div><div class="final"><b>Resposta:</b> composto, 3 × 45</div></div></details></div><div class="item" id="ex-2c"><div><span class="letra">c)</span>365</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Teste a divisão pelos primos 2, 3, 5, 7, 11… em ordem: ÷ 2: não é exata; ÷ 3: não é exata; ÷ 5: dá 73, exato!.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>365 = 5 × 73: tem outros divisores além do 1 e dele mesmo. É <b>composto</b>.</p></div></div><div class="final"><b>Resposta:</b> composto, 5 × 73</div></div></details></div><div class="item" id="ex-2d"><div><span class="letra">d)</span>379</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Teste a divisão pelos primos 2, 3, 5, 7, 11… em ordem: ÷ 2: não é exata; ÷ 3: não é exata; ÷ 5: não é exata; ÷ 7: não é exata; ÷ 11: não é exata; ÷ 13: não é exata; ÷ 17: não é exata; ÷ 19: não é exata; 23 × 23 = 529 já passa de 379: pode parar.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Nenhuma divisão foi exata: 379 só tem os divisores 1 e 379. É <b>primo</b>.</p></div></div><div class="final"><b>Resposta:</b> primo</div></div></details></div></article><article id="ex-3"><p class="cmd"><span class="num">3.</span>Quais destes números são primos? Responda com todos, em ordem crescente (ou “nenhum”).</p><p class="exemplo"><b>Exemplo:</b> 51, 53, 57, 59, 61, 63 → 53, 59 e 61</p><div class="item" id="ex-3a"><div><span class="letra">a)</span>249, 251, 253, 255, 257, 259</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Elimine primeiro os que terminam em 5 e os que têm soma dos algarismos na tabuada do 3.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Teste os que sobrarem dividindo por 7, 11, 13…</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>249 = 3 × 83 ✗; 251 ✓; 253 = 11 × 23 ✗; 255 = 3 × 85 ✗; 257 ✓; 259 = 7 × 37 ✗.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p>Primos: <b>251 e 257</b>.</p></div></div><div class="final"><b>Resposta:</b> 251 e 257</div></div></details></div><div class="item" id="ex-3b"><div><span class="letra">b)</span>371, 373, 375, 377, 379, 381</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Elimine primeiro os que terminam em 5 e os que têm soma dos algarismos na tabuada do 3.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Teste os que sobrarem dividindo por 7, 11, 13…</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>371 = 7 × 53 ✗; 373 ✓; 375 = 3 × 125 ✗; 377 = 13 × 29 ✗; 379 ✓; 381 = 3 × 127 ✗.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p>Primos: <b>373 e 379</b>.</p></div></div><div class="final"><b>Resposta:</b> 373 e 379</div></div></details></div><div class="item" id="ex-3c"><div><span class="letra">c)</span>209, 211, 213, 215, 217, 219</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Elimine primeiro os que terminam em 5 e os que têm soma dos algarismos na tabuada do 3.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Teste os que sobrarem dividindo por 7, 11, 13…</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>209 = 11 × 19 ✗; 211 ✓; 213 = 3 × 71 ✗; 215 = 5 × 43 ✗; 217 = 7 × 31 ✗; 219 = 3 × 73 ✗.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p>Primos: <b>211</b>.</p></div></div><div class="final"><b>Resposta:</b> 211</div></div></details></div><div class="item" id="ex-3d"><div><span class="letra">d)</span>257, 259, 261, 263, 265, 267</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Elimine primeiro os que terminam em 5 e os que têm soma dos algarismos na tabuada do 3.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Teste os que sobrarem dividindo por 7, 11, 13…</p></div></div><div class="passo"><span class="n">3</span><div class="corpo"><p>257 ✓; 259 = 7 × 37 ✗; 261 = 3 × 87 ✗; 263 ✓; 265 = 5 × 53 ✗; 267 = 3 × 89 ✗.</p></div></div><div class="passo"><span class="n">4</span><div class="corpo"><p>Primos: <b>257 e 263</b>.</p></div></div><div class="final"><b>Resposta:</b> 257 e 263</div></div></details></div></article><article id="ex-4"><p class="cmd"><span class="num">4.</span>Descubra o número primo pedido.</p><p class="exemplo"><b>Exemplo:</b> o primeiro primo depois de 89 → 97</p><div class="item" id="ex-4a"><div><span class="letra">a)</span>o primeiro primo depois de 345</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Vá testando um número de cada vez (os pares e os terminados em 5 já dá para pular): 346 = 2 × 173; 347 é primo ✓.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Resposta: <b>347</b>.</p></div></div><div class="final"><b>Resposta:</b> 347</div></div></details></div><div class="item" id="ex-4b"><div><span class="letra">b)</span>o primeiro primo depois de 123</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Vá testando um número de cada vez (os pares e os terminados em 5 já dá para pular): 124 = 2 × 62; 125 = 5 × 25; 126 = 2 × 63; 127 é primo ✓.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Resposta: <b>127</b>.</p></div></div><div class="final"><b>Resposta:</b> 127</div></div></details></div><div class="item" id="ex-4c"><div><span class="letra">c)</span>o maior primo menor que 546</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Vá testando um número de cada vez (os pares e os terminados em 5 já dá para pular): 545 = 5 × 109; 544 = 2 × 272; 543 = 3 × 181; 542 = 2 × 271; 541 é primo ✓.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Resposta: <b>541</b>.</p></div></div><div class="final"><b>Resposta:</b> 541</div></div></details></div><div class="item" id="ex-4d"><div><span class="letra">d)</span>o maior primo menor que 307</div><details><summary>Ver a resolução</summary><div class="solucao"><div class="passo"><span class="n">1</span><div class="corpo"><p>Vá testando um número de cada vez (os pares e os terminados em 5 já dá para pular): 306 = 2 × 153; 305 = 5 × 61; 304 = 2 × 152; 303 = 3 × 101; 302 = 2 × 151; 301 = 7 × 43; 300 = 2 × 150; 299 = 13 × 23; 298 = 2 × 149; 297 = 3 × 99; 296 = 2 × 148; 295 = 5 × 59; 294 = 2 × 147; 293 é primo ✓.</p></div></div><div class="passo"><span class="n">2</span><div class="corpo"><p>Resposta: <b>293</b>.</p></div></div><div class="final"><b>Resposta:</b> 293</div></div></details></div></article>
+</main>
+<script>
+const form=document.getElementById('busca'),campo=document.getElementById('numero'),aviso=document.getElementById('aviso');
+function achar(v){
+  v=(v||'').toLowerCase().replace(/[.\s]/g,'');
+  if(!v)return false;
+  let alvo=document.getElementById('ex-'+v);
+  if(!alvo){const m=v.match(/^(\d+)/);if(m)alvo=document.getElementById('ex-'+m[1]);}
+  if(!alvo)return false;
+  document.querySelectorAll('.achado').forEach(e=>e.classList.remove('achado'));
+  alvo.classList.add('achado');
+  alvo.querySelectorAll('details').forEach(d=>d.open=true);
+  alvo.scrollIntoView({block:'start'});
+  return true;
+}
+form.addEventListener('submit',e=>{e.preventDefault();
+  aviso.textContent=achar(campo.value)?'':'Não achei esse número nesta seção. Confira o número no livro.';
+  if(!aviso.textContent)history.replaceState(null,'','#'+campo.value.replace(/[.\s]/g,''));});
+if(location.hash)achar(location.hash.slice(1));
+</script>
+</body></html>
